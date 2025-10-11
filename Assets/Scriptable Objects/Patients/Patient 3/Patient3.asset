@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f7dddebbdcde64d985725b32c102f9, type: 3}
+  m_Name: Patient3
+  m_EditorClassIdentifier: 
+  isInfected: 1
+  twitchDegree: 0
+  leftEye: {fileID: 11400000, guid: ff2c5afa684bdd14c925215ee53a2dbf, type: 2}
+  rightEye: {fileID: 0}
+  patientAvatar: {fileID: 2100000, guid: b8cd532936d8b5a41aea11be723e1d56, type: 2}
+  peopleKilled: 0
+  entryText: "Um\u2026 hi\u2026 Sorry, I\u2019m kind of nervous\u2026 will this be
+    painful? Will it take long? Sorry, I\u2019m asking too many questions\u2026 sorry\u2026"
+  infectedText: "Huh? What\u2019s over this way? Oh\u2026 that's\u2026 I\u2019m sorry."
+  acceptedText: "Sorry\u2026 ah, I mean, thank you! Thank you\u2026"
+  voice: {fileID: 8300000, guid: a2c334f3950531345886ea5bcfaede15, type: 3}

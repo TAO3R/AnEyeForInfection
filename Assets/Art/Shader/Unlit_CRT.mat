@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Unlit_CRT
+  m_Shader: {fileID: 4800000, guid: 8c8689dfcbd303e44a45e7fdb9202bc5, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _EnvCube:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GlassNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 8400000, guid: 4c4222303085dd140bad7efa31a9c8e8, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AberrationAmount: 0
+    - _BarrelK: 0.04
+    - _BloomAmount: 0.11
+    - _CAAmount: 0.705
+    - _DistortAmount: 0
+    - _GlassJitterAmp: 0.025
+    - _GlassJitterFreq: 18.49
+    - _MaskAmount: 0.525
+    - _NoiseAmount: 0.15
+    - _PixelateAmount: 0.065
+    - _ReflectionStrength: 0.128
+    - _RoundedAmount: 0.725
+    - _ScanDensity: 900
+    - _ScanIntensity: 1
+    - _ScanlineFrequency: 0.39
+    - _ScanlineIntensity: 0.0222
+    - _ScanlineSpeed: 10.1
+    - _Vignette: 2
+    - _VignetteAmount: 0
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

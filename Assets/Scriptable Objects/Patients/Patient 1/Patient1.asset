@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f7dddebbdcde64d985725b32c102f9, type: 3}
+  m_Name: Patient1
+  m_EditorClassIdentifier: 
+  isInfected: 0
+  twitchDegree: 0
+  leftEye: {fileID: 11400000, guid: 03ba3013bcb7c1242a748e6f3733ac4e, type: 2}
+  rightEye: {fileID: 0}
+  patientAvatar: {fileID: 2100000, guid: 9b28382a3b430e34ca90d49c56075798, type: 2}
+  peopleKilled: 0
+  entryText: "Hey there, this your first day? Just be gentle, I\u2019ve been through
+    hell to get here."
+  infectedText: Huh?
+  acceptedText: "Maybe I\u2019ll see you around. Take it easy."
+  voice: {fileID: 8300000, guid: e38bab9eea040ff48b913160dc934759, type: 3}

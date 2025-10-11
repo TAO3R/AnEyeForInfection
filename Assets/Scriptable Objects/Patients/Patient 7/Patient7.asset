@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f7dddebbdcde64d985725b32c102f9, type: 3}
+  m_Name: Patient7
+  m_EditorClassIdentifier: 
+  isInfected: 0
+  twitchDegree: 0
+  leftEye: {fileID: 11400000, guid: 0a055877accdfa44a8ea69c7aa288b70, type: 2}
+  rightEye: {fileID: 0}
+  patientAvatar: {fileID: 2100000, guid: f8c3b2e8ee6c14149ab05b99ea0c7240, type: 2}
+  peopleKilled: 0
+  entryText: "You okay? You don\u2019t look so good."
+  infectedText: "That can\u2019t be right, can it? Check one more time, if you don\u2019t
+    mind."
+  acceptedText: "Maybe you should take a break or something, you\u2019re sweating
+    like crazy."
+  voice: {fileID: 8300000, guid: c30418edaa3ebca41ab2f1d41566770b, type: 3}
