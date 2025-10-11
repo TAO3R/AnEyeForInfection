@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f7dddebbdcde64d985725b32c102f9, type: 3}
+  m_Name: Patient3
+  m_EditorClassIdentifier: 
+  isInfected: 1
+  exaggeratedTwitch: 0
+  leftEye: {fileID: 11400000, guid: 2b684b36934009546b79c869de4c5728, type: 2}
+  rightEye: {fileID: 11400000, guid: 9652b538bba8eb344b5151e2b43b19e0, type: 2}
+  patientAvatar: {fileID: 0}
