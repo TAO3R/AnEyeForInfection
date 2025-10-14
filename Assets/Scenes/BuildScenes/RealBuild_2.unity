@@ -189,7 +189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 43b231cb1952aa34cbe0d142556dd319, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -278,8 +278,6 @@ MonoBehaviour:
   speculumResetSpeed: 300
   eyeballScript: {fileID: 917949998}
   isResetting: 0
-  speculumPickup: {fileID: -6435037025825878009, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  pullUpAction: {fileID: -6412977580478245910, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   speculumRenderer: {fileID: 1939041923}
   eyeRenderer: {fileID: 1944875103}
   speculumSounds:
@@ -336,9 +334,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patientList:
-  - {fileID: 11400000, guid: f9e718539675cb54a98220a3692df14e, type: 2}
-  - {fileID: 11400000, guid: 0436aa11a95477f4c89405783905fd98, type: 2}
-  - {fileID: 11400000, guid: c9f2c4b21c379d24b85288517a6a33f3, type: 2}
+  - {fileID: 11400000, guid: 5cb48854d8360904da16e4dbacc5f4f0, type: 2}
+  - {fileID: 11400000, guid: 41ce5b81a2954ca4897d7eaa34e13eea, type: 2}
+  - {fileID: 11400000, guid: c73cb08925775234e8ff335f5cd6f9a0, type: 2}
   sequenceDirector: {fileID: 772313065}
   endOfDay: {fileID: 2140843633}
   materials:
@@ -1489,7 +1487,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 43b231cb1952aa34cbe0d142556dd319, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2487,7 +2485,7 @@ MonoBehaviour:
   agitatedCorrectionRange: 11
   agitatedSaccadeSpeed: 300
   agitatedMicroInterval: {x: 0.05, y: 0.25}
-  agitatedCorrectionInterval: {x: 0.1, y: 0.7}
+  agitatedCorrectionInterval: {x: 0.1, y: 1}
   baseRotResetInterval: {x: 4, y: 8}
   currentEyeballState: 0
   eyeballTrans: {fileID: 765404023}
@@ -3231,9 +3229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d85350537660b243a4a2c929cf5a6f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  judgementAction: {fileID: -1807798455405468659, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  acceptedAction: {fileID: -6442372662416726885, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  infectedAction: {fileID: -2092486762085827666, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   judgementAnimator: {fileID: 735077569}
   sounds:
   - {fileID: 8300000, guid: 460e153f52dc6bd4aafe9c56831d07b0, type: 3}
@@ -3241,7 +3236,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 727585afd5d3a7f4c9af6a5f533481e9, type: 3}
   judgedInfected: 0
   endOfDay: {fileID: 2140843633}
-  spotlightGO: {fileID: 1643203782}
+  spotlightGo: {fileID: 0}
   pupilAnim: {fileID: 1960410790}
 --- !u!1 &1463943514
 GameObject:
@@ -4497,15 +4492,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14547539ad8b948468257a8acf88078f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropperScript: {fileID: 2002613212}
   prepareAction: {fileID: 3891329186803267541, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   dripAction: {fileID: -2243275376476831780, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  eyeDropperAnim: {fileID: 2002613213}
-  pupilAnim: {fileID: 1960410790}
-  eyeDropperCurrentState: 0
-  drip: {fileID: 4516711086685474339, guid: 244fe454dc3c9104cb12d20b2b695cd7, type: 3}
-  dropperTip: {fileID: 1215993596}
-  dropperPickUpClip: {fileID: 7400000, guid: 7a055a7bd6f3b2c449b51856cbcffd3a, type: 2}
-  dropper: {fileID: 2002613210}
+  speculumScript: {fileID: 57689021}
+  speculumPickup: {fileID: -6435037025825878009, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  pullUpAction: {fileID: -6412977580478245910, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  stampScript: {fileID: 1368349237}
+  judgementAction: {fileID: -1807798455405468659, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  acceptedAction: {fileID: -6442372662416726885, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  infectedAction: {fileID: -2092486762085827666, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!114 &1690656370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5265,6 +5261,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f68890db1b66424b9e10231a40abb14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropperAnim: {fileID: 2002613213}
+  pupilAnim: {fileID: 1960410790}
+  eyeDropperCurrentState: 0
+  dripInterval: 1
+  drip: {fileID: 4516711086685474339, guid: 244fe454dc3c9104cb12d20b2b695cd7, type: 3}
+  dropperTip: {fileID: 1215993596}
+  dropperPickUpClip: {fileID: 7400000, guid: 7a055a7bd6f3b2c449b51856cbcffd3a, type: 2}
 --- !u!95 &2002613213
 Animator:
   serializedVersion: 7
@@ -5493,7 +5496,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 85296d93d623c7d4bb9a01cd94b83162, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8af70b66b609d4e45b55a0feb32e453b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5733,12 +5736,12 @@ MonoBehaviour:
   popupCanvasGroup: {fileID: 1623475226}
   dayHeaderText: {fileID: 1527729155}
   statsText: {fileID: 1909228904}
-  dayNumber: 1
+  dayNumber: 2
   population: 404
   pplTurnedAway: 0
   showDuration: 4
   fadeDuration: 1
-  nextScene: RealBuild_2
+  nextScene: RealBuild_3
   judgement: {fileID: 1368349237}
 --- !u!114 &2140843634
 MonoBehaviour:
