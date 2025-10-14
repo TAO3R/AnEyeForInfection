@@ -18,6 +18,6 @@ public class Stamp : MonoBehaviour
 
     public void AnimEventHelper()
     {
-        judgementScript.StampHelepr();
+        judgementScript.StampHelper();
     }
 }

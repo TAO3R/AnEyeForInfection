@@ -15,4 +15,4 @@ MonoBehaviour:
   patient: {fileID: 11400000, guid: 41ce5b81a2954ca4897d7eaa34e13eea, type: 2}
   willDilate: 1
   bloodshotType: 0
-  colorType: 0
+  colorType: 1

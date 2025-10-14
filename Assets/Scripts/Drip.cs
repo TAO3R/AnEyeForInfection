@@ -26,7 +26,7 @@ public class Drip : MonoBehaviour
             
             if (LevelManager.Instance.currentEyeball.WillDilate)
             {
-                InputManager.Instance.pupilAnim.SetBool("Dilate", true);
+                LevelManager.Instance.pupilAnim.SetBool(Dilate, true);
             }
         }
         

@@ -1,144 +1,186 @@
-using System.Collections;
-using Tutorial;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public enum EyeDropperStates
-{
-    OnTray,
-    PickedUp,
-    Moving,
-    Dripping
-}
-
 public class InputManager : MonoBehaviour
 {
+    // Singleton
     public static InputManager Instance;
 
-    #region EyeDropper
-    private static readonly int Rise = Animator.StringToHash("Rise");
-    private static readonly int Drip = Animator.StringToHash("Drip");
-    private static readonly int Reset = Animator.StringToHash("Reset");
-
-    [Header("Input Actions")]
+    [Header("Eye Dropper Input Actions")]
+    [SerializeField] private EyeDropper dropperScript;
     [SerializeField] private InputActionReference prepareAction; // pickup/place button
     [SerializeField] private InputActionReference dripAction;    // drip button
-    #endregion
 
-    [Header("Animators")]
-    public Animator eyeDropperAnim;
-    public Animator pupilAnim;
+    [Header("Speculum Input Actions")]
+    [SerializeField] private Speculum speculumScript;
+    [SerializeField] private InputActionReference speculumPickup;
+    [SerializeField] private InputActionReference pullUpAction;
+    
+    // Exposed for the speculum to read input value from the pressure-sensitive clip
+    public InputActionReference PullUpAction => pullUpAction;
 
-    [Header("Dropper Settings")]
-    [SerializeField] private EyeDropperStates eyeDropperCurrentState;
-    public EyeDropperStates EyeDropperCurrentState => eyeDropperCurrentState;
-    public GameObject drip;
-    public Transform dropperTip;
-
-    [Header("Procedural Anim")] [SerializeField]
-    private AnimationClip dropperPickUpClip;
-    [SerializeField]
-    private GameObject dropper;
-
+    [Header("Stamp Input Actions")]
+    [SerializeField] private Judgement stampScript;
+    [SerializeField] private InputActionReference judgementAction;
+    [SerializeField] private InputActionReference acceptedAction;
+    [SerializeField] private InputActionReference infectedAction;
+    
+    
+    
     #region Mono
 
     private void Awake()
     {
+        // Singleton
         Instance = this;
-        eyeDropperCurrentState = EyeDropperStates.OnTray;
     }
 
     private void OnEnable()
     {
-        // Pickup when button released, place when pressed
-        prepareAction.action.started += OnPlaceDown;   // button pressed -> place on tray
-        prepareAction.action.canceled += OnPickup;    // button released -> pick up
+        // Eye dropper
+        prepareAction.action.started += OnDropperPutDown;          // button pressed -> put on tray
+        prepareAction.action.canceled += OnDropperPickedUp;        // button released -> pick up
 
-        dripAction.action.started += OnDrip;          // separate drip button
+        dripAction.action.started += OnDropperDrip;                // separate drip button
 
         prepareAction.action.Enable();
         dripAction.action.Enable();
+        
+        // Speculum
+        speculumPickup.action.started += OnSpeculumPutDown;
+        speculumPickup.action.canceled += OnSpeculumPickedUp;
+        
+        pullUpAction.action.started += OnSpeculumPullUpStarted;
+        pullUpAction.action.canceled += OnSpeculumPullUpEnded;
+
+        speculumPickup.action.Enable();
+        pullUpAction.action.Enable();
+        
+        // Stamp
+        // On-tray button
+        judgementAction.action.started += OnStampPutDown;
+        judgementAction.action.canceled += OnStampPickedUp;
+
+        // Accepted/Infected buttons
+        acceptedAction.action.performed += OnStampingAccepted;
+        infectedAction.action.performed += OnStampingInfected;
+
+        judgementAction.action.Enable();
+        acceptedAction.action.Enable();
+        infectedAction.action.Enable();
     }
 
     private void OnDisable()
     {
-        prepareAction.action.started -= OnPlaceDown;
-        prepareAction.action.canceled -= OnPickup;
-
-        dripAction.action.started -= OnDrip;
+        // Eye dropper
+        // On-tray button
+        prepareAction.action.started -= OnDropperPutDown;
+        prepareAction.action.canceled -= OnDropperPickedUp;
+        
+        // Binary clip inside the dropper
+        dripAction.action.started -= OnDropperDrip;
 
         prepareAction.action.Disable();
         dripAction.action.Disable();
+        
+        // Speculum
+        // On-tray button
+        speculumPickup.action.started -= OnSpeculumPutDown;
+        speculumPickup.action.canceled -= OnSpeculumPickedUp;
+        
+        // Pressure-sensitive clip
+        pullUpAction.action.started -= OnSpeculumPullUpStarted;
+        pullUpAction.action.canceled -= OnSpeculumPullUpEnded;
+        
+        speculumPickup.action.Disable();
+        pullUpAction.action.Disable();
+        
+        // Stamp
+        // On-tray button
+        judgementAction.action.started -= OnStampPutDown;
+        judgementAction.action.canceled -= OnStampPickedUp;
+
+        // Accepted/Infected buttons
+        acceptedAction.action.performed -= OnStampingAccepted;
+        infectedAction.action.performed -= OnStampingInfected;
+
+        judgementAction.action.Disable();
+        acceptedAction.action.Disable();
+        infectedAction.action.Disable();
     }
 
     #endregion
-
+    
+    
+    
     #region Input Action Callbacks
-
+    
     // Pick up the dropper when button is released and it is on the tray
-    private void OnPickup(InputAction.CallbackContext ctx)
+    private void OnDropperPickedUp(InputAction.CallbackContext ctx)
     {
-        if (eyeDropperCurrentState == EyeDropperStates.OnTray)
-        {
-            TutorialManager.Instance?.NotifyObserver();
-            
-            Temp(); // trigger pickup animation
-            
-            // Invoke a coroutine that uses AnimationClip.SampleAnimation()
-            // StartCoroutine(PlayAnimClip(dropper, dropperPickUpClip));
-        }
+        dropperScript.OnPickedUp();
     }
 
     // Place the dropper back on the tray when button is pressed and it is picked up
-    private void OnPlaceDown(InputAction.CallbackContext ctx)
+    private void OnDropperPutDown(InputAction.CallbackContext ctx)
     {
-        if (eyeDropperCurrentState == EyeDropperStates.PickedUp)
-        {
-            eyeDropperAnim.SetTrigger(Reset);
-            eyeDropperCurrentState = EyeDropperStates.OnTray;
-        }
+        dropperScript.OnPutDown();
     }
 
-    // Drop a drip while being picked up
-    private void OnDrip(InputAction.CallbackContext ctx)
+    // Drop a drip while the dropper being picked up
+    private void OnDropperDrip(InputAction.CallbackContext ctx)
     {
-        if (eyeDropperCurrentState == EyeDropperStates.PickedUp)
-        {
-            eyeDropperCurrentState = EyeDropperStates.Dripping;
-            eyeDropperAnim.SetTrigger("Drip");
-            GameObject tempDrip = Instantiate(drip, dropperTip.position, Quaternion.identity);
-            tempDrip.SetActive(true);
-        }
-    }
-
-    #endregion
-
-    #region Animation Events
-
-    public void SetDroppingMoving() => eyeDropperCurrentState = EyeDropperStates.Moving;
-    public void SetDropperPickedUp() => eyeDropperCurrentState = EyeDropperStates.PickedUp;
-    public void SetDropperOnTray() => eyeDropperCurrentState = EyeDropperStates.OnTray;
-
-    // Trigger rise animation
-    public void Temp() => eyeDropperAnim.SetTrigger(Rise);
-
-    #endregion
-
-    private IEnumerator PlayAnimClip(GameObject go, AnimationClip clip)
-    {
-        Debug.Log("Start picking up dropper procedurally");
-        float timeElapsed = 0f, duration = clip.length;
-        Debug.Log("Duration: " + duration);
-        while (timeElapsed < duration)
-        {
-            clip.SampleAnimation(go, timeElapsed);
-            
-            timeElapsed += Time.deltaTime;
-            yield return null;
-        }
-        
-        clip.SampleAnimation(go, duration);
-        Debug.Log("Finished picking up dropper procedurally");
+        dropperScript.OnDrip();
     }
     
-} // End of class
+    // Pick up the speculum
+    private void OnSpeculumPickedUp(InputAction.CallbackContext ctx)
+    {
+       speculumScript.OnPickedUp();
+    }
+    
+    // Put down the speculum
+    private void OnSpeculumPutDown(InputAction.CallbackContext ctx)
+    {
+        speculumScript.OnPutDown();
+    }
+    
+    // Pull the speculum open
+    private void OnSpeculumPullUpStarted(InputAction.CallbackContext ctx)
+    {
+        speculumScript.OnPullUpStarted();
+    }
+    
+    // Stop pull the speculum open
+    private void OnSpeculumPullUpEnded(InputAction.CallbackContext ctx)
+    {
+        speculumScript.OnPullUpEnded();
+    }
+    
+    // Pick up the stamp
+    private void OnStampPickedUp(InputAction.CallbackContext ctx)
+    {
+        stampScript.OnJudgementReleased();
+    }
+    
+    // Put down the stamp
+    private void OnStampPutDown(InputAction.CallbackContext ctx)
+    {
+        stampScript.OnJudgementPressed();
+    }
+    
+    // Stamping accepted button
+    private void OnStampingAccepted(InputAction.CallbackContext ctx)
+    {
+        stampScript.OnAccepted();
+    }
+    
+    // Stamping infected button
+    private void OnStampingInfected(InputAction.CallbackContext ctx)
+    {
+        stampScript.OnInfected();
+    }
+
+    #endregion
+    
+}   // End of class

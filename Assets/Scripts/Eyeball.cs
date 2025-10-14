@@ -316,6 +316,7 @@ public class Eyeball : MonoBehaviour
     
     private void HandleEyeballTracking()
     {
+        // Looking at the object while the rotation being clamped
         
     }
 

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Tutorial;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Speculum : MonoBehaviour
 {
@@ -23,10 +22,6 @@ public class Speculum : MonoBehaviour
     [SerializeField] private float speculumResetSpeed;
     [SerializeField] private Eyeball eyeballScript;
     [SerializeField] private bool isResetting;
-    
-    [Header("Input Actions")]
-    [SerializeField] private InputActionReference speculumPickup;
-    [SerializeField] private InputActionReference pullUpAction;
 
     [Header("Skinned Mesh Renderers")]
     [SerializeField] private SkinnedMeshRenderer speculumRenderer;
@@ -51,34 +46,6 @@ public class Speculum : MonoBehaviour
     
     
     #region Mono
-    
-    private void OnEnable()
-    {
-        // On tray button
-        speculumPickup.action.started += OnSpeculumPlaced;
-        speculumPickup.action.canceled += OnSpeculumPicked;
-        
-        // Pressure-sensitive clip
-        pullUpAction.action.started += OnPullUpStarted;
-        pullUpAction.action.canceled += OnPullUpEnded;
-
-        speculumPickup.action.Enable();
-        pullUpAction.action.Enable();
-    }
-
-    private void OnDisable()
-    {
-        // On tray button
-        speculumPickup.action.started -= OnSpeculumPlaced;
-        speculumPickup.action.canceled -= OnSpeculumPicked;
-        
-        // Pressure-sensitive clip
-        pullUpAction.action.started -= OnPullUpStarted;
-        pullUpAction.action.canceled -= OnPullUpEnded;
-        
-        speculumPickup.action.Disable();
-        pullUpAction.action.Disable();
-    }
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -119,9 +86,11 @@ public class Speculum : MonoBehaviour
     
     
     #region Input Action Callbacks
-
+    
+    /// <summary>
     /// Called when the speculum is picked up from the tray, on-tray button released
-    private void OnSpeculumPicked(InputAction.CallbackContext ctx)
+    /// </summary>
+    public void OnPickedUp()
     {
         // Tutorial
         TutorialManager.Instance?.NotifyObserver();
@@ -142,8 +111,10 @@ public class Speculum : MonoBehaviour
         SoundManager.Instance.CallSoundPrefabFunction(speculumSounds[0], speculumGo);
     }
     
+    /// <summary>
     /// Called when the speculum is placed back on the tray, on-tray button pressed
-    private void OnSpeculumPlaced(InputAction.CallbackContext ctx)
+    /// </summary>
+    public void OnPutDown()
     {
         // Speculum state
         movingTowardsEye = false;
@@ -158,8 +129,10 @@ public class Speculum : MonoBehaviour
         SoundManager.Instance.CallSoundPrefabFunction(speculumSounds[1], speculumGo);
     }
     
+    /// <summary>
     /// Called when the speculum starts being pressed
-    private void OnPullUpStarted(InputAction.CallbackContext ctx)
+    /// </summary>
+    public void OnPullUpStarted()
     {
         if (currentSpeculumState != SpeculumState.OnEye) { return; }
 
@@ -178,8 +151,10 @@ public class Speculum : MonoBehaviour
         // CameraZoom();
     }
     
+    /// <summary>
     /// Called when the speculum stops being pressed
-    private void OnPullUpEnded(InputAction.CallbackContext ctx)
+    /// </summary>
+    public void OnPullUpEnded()
     {
         // if (!_speculumPickedUp) return;
 
@@ -227,9 +202,9 @@ public class Speculum : MonoBehaviour
     
     private void CatchUpClipInput()
     {
-        float currentWeight = speculumRenderer.GetBlendShapeWeight(0);    // 0 ~ 100
-        float triggerInput = pullUpAction.action.ReadValue<float>();            // 0 ~ 1
-        float targetWeight = triggerInput * 100;                                // 0 ~ 100
+        float currentWeight = speculumRenderer.GetBlendShapeWeight(0);                  // 0 ~ 100
+        float triggerInput = InputManager.Instance.PullUpAction.action.ReadValue<float>();      // 0 ~ 1
+        float targetWeight = triggerInput * 100;                                                // 0 ~ 100
 
         float difference = Mathf.Abs(targetWeight - currentWeight);
         float speed = difference * catchUpSpeed;

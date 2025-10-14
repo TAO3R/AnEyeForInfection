@@ -1,18 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.InputSystem;
 
 public class Judgement : MonoBehaviour
 {
-    [Header("Input Actions")]
-    [SerializeField] private InputActionReference judgementAction; // the stamp button
-    [SerializeField] private InputActionReference acceptedAction;
-    [SerializeField] private InputActionReference infectedAction;
-
     [Header("Animation")]
     [SerializeField] private Animator judgementAnimator;
 
@@ -37,41 +30,16 @@ public class Judgement : MonoBehaviour
     private int infectedAccepted = 0;
     public int InfectedAccepted => infectedAccepted;
 
-    [SerializeField] private GameObject spotlightGO;
+    [SerializeField] private GameObject spotlightGo;
 
     [SerializeField] private Animator pupilAnim;
+    
+    
 
-    private void OnEnable()
-    {
-        // Stamp pressed / released
-        judgementAction.action.started += OnJudgementPressed;
-        judgementAction.action.canceled += OnJudgementReleased;
-
-        // Accepted/Infected
-        acceptedAction.action.performed += OnAccepted;
-        infectedAction.action.performed += OnInfected;
-
-        // Enable all actions
-        judgementAction.action.Enable();
-        acceptedAction.action.Enable();
-        infectedAction.action.Enable();
-    }
-
-    private void OnDisable()
-    {
-        judgementAction.action.started -= OnJudgementPressed;
-        judgementAction.action.canceled -= OnJudgementReleased;
-
-        acceptedAction.action.performed -= OnAccepted;
-        infectedAction.action.performed -= OnInfected;
-
-        judgementAction.action.Disable();
-        acceptedAction.action.Disable();
-        infectedAction.action.Disable();
-    }
-
-    // When the stamp is placed back to the table
-    private void OnJudgementPressed(InputAction.CallbackContext ctx)
+    /// <summary>
+    /// When the stamp is placed back to the table
+    /// </summary>
+    public void OnJudgementPressed()
     {
         isJudgementHeld = false; // stamp resting → cannot judge
         hasJudged = false;       // reset for next lift
@@ -87,8 +55,10 @@ public class Judgement : MonoBehaviour
         //     judgementAnimator.SetTrigger("PutDown");
     }
     
-    // When the stamp is picked up
-    private void OnJudgementReleased(InputAction.CallbackContext ctx)
+    /// <summary>
+    /// When the stamp is picked up
+    /// </summary>
+    public void OnJudgementReleased()
     {
         isJudgementHeld = true; // stamp lifted → can judge
         hasJudged = false;      // reset judgement for this lift
@@ -119,8 +89,10 @@ public class Judgement : MonoBehaviour
         // }
     }
     
-    // When the accepted button is hit
-    private void OnAccepted(InputAction.CallbackContext ctx)
+    /// <summary>
+    /// When the accepted button is hit
+    /// </summary>
+    public void OnAccepted()
     {
         if (!isJudgementHeld || hasJudged || LevelManager.Instance.StampIsMoving)
             return;
@@ -131,8 +103,10 @@ public class Judgement : MonoBehaviour
         judgedInfected = false;
     }
     
-    // When the infected button is hit
-    private void OnInfected(InputAction.CallbackContext ctx)
+    /// <summary>
+    /// When the infected button is hit
+    /// </summary>
+    public void OnInfected()
     {
         if (!isJudgementHeld || hasJudged || LevelManager.Instance.StampIsMoving)
             return;
@@ -147,7 +121,7 @@ public class Judgement : MonoBehaviour
         //Debug.Log("after, value is " + judgedInfected);
     }
 
-    public void StampHelepr()
+    public void StampHelper()
     {
         // Activate correct sprite and initiate card move
         if (judgedInfected)

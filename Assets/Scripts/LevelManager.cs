@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -61,7 +59,7 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private Eyeball eyeballScript;
 
-    [SerializeField] private Animator pupilAnim;
+    public Animator pupilAnim;
     
     #endregion
     
@@ -262,10 +260,12 @@ public class LevelManager : MonoBehaviour
     // Update Eyeball visuals to the current eyeball
     public void UpdateEyeball()
     {
+        Debug.Log("[LevelManager]: updating eyeball");
+        
         eyeballRenderer.material = eyeballMaterials[(int)currentEyeball.BloodshotType];
         irisRenderer.material = irisMaterials[(int)currentEyeball.ColorType];
 
-        InputManager.Instance.pupilAnim.SetBool("Dilate", false);
+        pupilAnim.SetBool("Dilate", false);
     }
 
     // Sets the current eyeball to the opposite of what it is currently looking at
