@@ -5,6 +5,13 @@ using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using Random = UnityEngine.Random;
 
+public enum LevelStates
+{
+    PreGame,
+    Playing,
+    AfterGame
+}
+
 public class LevelManager : MonoBehaviour
 {
     // Singleton
@@ -323,7 +330,6 @@ public class LevelManager : MonoBehaviour
             // throw new NotImplementedException("Need to set up patient info on each ID cards.");
             
             tempID.GetComponentInChildren<Renderer>().material = patientList[index].PatientAvatar;
-
         }
         
         patientList.Reverse();

@@ -31,12 +31,12 @@ public class Speculum : MonoBehaviour
     private List<AudioClip> speculumSounds;
 
     [Header("Speculum")]
-    
     [Tooltip("How fast the speculum tries to match player input when on air")] [SerializeField]
     private float catchUpSpeed;
     
     [SerializeField] private SpeculumState currentSpeculumState;
     [SerializeField] private bool movingTowardsEye;
+    [SerializeField] private Transform eyeTrackingTrans;
     
     // private Coroutine _currentEyeCoroutine;
     // private Coroutine _currentSpeculumCoroutine;
@@ -82,7 +82,7 @@ public class Speculum : MonoBehaviour
     }
     
     #endregion
-
+    
     
     
     #region Input Action Callbacks
@@ -105,14 +105,18 @@ public class Speculum : MonoBehaviour
         
         movingTowardsEye = true;
         currentSpeculumState = SpeculumState.OnAir;
-        eyeballScript.canBlinkOrTwitch = false;
+        
+        // Eyeball
+        eyeballScript.SetEyeballCanBlinkOrTwitch(false);
+        eyeballScript.SetEyeballState(EyeballState.Tracking);
+        eyeballScript.SetEyeballTrackingTargetTrans(eyeTrackingTrans);
         
         // Sound
         SoundManager.Instance.CallSoundPrefabFunction(speculumSounds[0], speculumGo);
     }
     
     /// <summary>
-    /// Called when the speculum is placed back on the tray, on-tray button pressed
+    /// Called when the speculum on-tray button is pressed
     /// </summary>
     public void OnPutDown()
     {
@@ -135,8 +139,9 @@ public class Speculum : MonoBehaviour
     public void OnPullUpStarted()
     {
         if (currentSpeculumState != SpeculumState.OnEye) { return; }
-
-        eyeballScript.currentEyeballState = EyeballState.Agitated;
+        
+        // Eyeball state
+        eyeballScript.SetEyeballState(EyeballState.Agitated);
 
         // Pull open sound
         SoundManager.Instance.CallSoundPrefabFunction(speculumSounds[2], speculumGo);
@@ -157,8 +162,9 @@ public class Speculum : MonoBehaviour
     public void OnPullUpEnded()
     {
         // if (!_speculumPickedUp) return;
-
-        eyeballScript.currentEyeballState = EyeballState.Idling;
+        
+        // Eyeball state
+        eyeballScript.SetEyeballState(EyeballState.Idling);
     }
     
     #endregion
@@ -180,8 +186,7 @@ public class Speculum : MonoBehaviour
             if (_currentOnClipTime >= _lerpInterval.y)
             {
                 // Just being on eye
-                _currentOnClipTime = _lerpInterval.y;
-                currentSpeculumState = SpeculumState.OnEye;
+                OnSpeculumOnEye();
             }
         }
         else
@@ -190,13 +195,34 @@ public class Speculum : MonoBehaviour
             if (_currentOnClipTime <= _lerpInterval.x)
             {
                 // Just being on tray
-                _currentOnClipTime = _lerpInterval.x;
-                currentSpeculumState = SpeculumState.OnTray;
-                eyeballScript.canBlinkOrTwitch = true;
+                OnSpeculumOnTray();
             }
         }
         
         speculumMoveClip.SampleAnimation(speculumGo, _currentOnClipTime);
+    }
+
+    private void OnSpeculumOnEye()
+    {
+        // Speculum
+        _currentOnClipTime = _lerpInterval.y;
+        currentSpeculumState = SpeculumState.OnEye;
+        
+        // Eyeball
+        eyeballScript.SetEyeballState(EyeballState.Agitated);
+        eyeballScript.SetEyeballTrackingTargetTrans(null);
+    }
+
+    private void OnSpeculumOnTray()
+    {
+        // Speculum
+        _currentOnClipTime = _lerpInterval.x;
+        currentSpeculumState = SpeculumState.OnTray;
+        
+        // Eyeball
+        eyeballScript.SetEyeballCanBlinkOrTwitch(true);
+        eyeballScript.SetEyeballState(EyeballState.Idling);
+        eyeballScript.SetEyeballTrackingTargetTrans(null);
     }
 
     
@@ -248,10 +274,15 @@ public class Speculum : MonoBehaviour
 
             yield return null;
         }
-
+        
+        // Eyeball
+        eyeballScript.SetEyeballState(EyeballState.Tracking);
+        eyeballScript.SetEyeballTrackingTargetTrans(eyeTrackingTrans);
+        
+        
+        // Speculum
         isResetting = false;
         currentSpeculumState = SpeculumState.OnAir;
-        eyeballScript.currentEyeballState = EyeballState.Idling;
         _speculumResetCoroutine = null;
         Debug.Log("Speculum Reset finished!");
     }

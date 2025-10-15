@@ -40,6 +40,8 @@ public class EyeDropper : MonoBehaviour
     [SerializeField]
     private AnimationClip dropperPickUpClip;
     private GameObject dropperGo;
+
+    [Header("Eyeball")] [SerializeField] private Eyeball eyeballScript;
     
     
 
@@ -74,6 +76,10 @@ public class EyeDropper : MonoBehaviour
         {
             // Animation
             dropperAnim.SetTrigger(Rise);
+            
+            // Eyeball
+            eyeballScript.SetEyeballState(EyeballState.Tracking);
+            eyeballScript.SetEyeballTrackingTargetTrans(dropperTip);
         }
     }
     
@@ -89,6 +95,10 @@ public class EyeDropper : MonoBehaviour
             
             // State
             eyeDropperCurrentState = EyeDropperStates.OnTray;
+            
+            // Eyeball
+            eyeballScript.SetEyeballState(EyeballState.Tracking);
+            eyeballScript.SetEyeballTrackingTargetTrans(dropperTip);
         }
     }
     
@@ -116,15 +126,19 @@ public class EyeDropper : MonoBehaviour
             // Instantiate a drip
             GameObject tempDrip = Instantiate(drip, dropperTip.position, Quaternion.identity);
             tempDrip.SetActive(true);
+            
+            // Eyeball slight
+            
         }
     }
     
     #endregion
     
     
+    
     #region Animation Events
 
-    public void SetEyeDroppingMoving()
+    public void SetEyeDropperMoving()
     {
         eyeDropperCurrentState = EyeDropperStates.Moving;
     }
@@ -132,11 +146,19 @@ public class EyeDropper : MonoBehaviour
     public void SetEyeDropperPickedUp()
     {
         eyeDropperCurrentState = EyeDropperStates.PickedUp;
+        
+        // Eyeball
+        eyeballScript.SetEyeballState(EyeballState.Idling);
+        eyeballScript.SetEyeballTrackingTargetTrans(null);
     }
     
     public void SetEyeDropperOnTray()
     {
         eyeDropperCurrentState = EyeDropperStates.OnTray;
+        
+        // Eyeball
+        eyeballScript.SetEyeballState(EyeballState.Idling);
+        eyeballScript.SetEyeballTrackingTargetTrans(null);
     }
     
     #endregion

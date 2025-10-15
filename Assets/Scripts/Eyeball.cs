@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Diagnostics;
-using Unity.Mathematics;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Video;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
@@ -83,6 +81,9 @@ public class Eyeball : MonoBehaviour
     [SerializeField] private Vector2 microInterval;
     [SerializeField] private Vector2 correctionInterval;
     
+    // Tracking
+    [SerializeField] private Transform eyeballTrackTarget;
+    
     // Agitated
     [SerializeField] private float agitatedMicroRange;                      // tiny jitter (degrees)
     [SerializeField] private float agitatedCorrectionRange;                 // occasional correction
@@ -94,7 +95,7 @@ public class Eyeball : MonoBehaviour
     private float _nextBaseResetTime;
     
     // Shared
-    public EyeballState currentEyeballState;
+    [SerializeField] private EyeballState currentEyeballState;
     [SerializeField] private Transform eyeballTrans;
     private Quaternion _eyeballBaseRot;
     private Quaternion _eyeballTargetRot;
@@ -125,7 +126,7 @@ public class Eyeball : MonoBehaviour
 
     [SerializeField] private GameObject eyeNeutral;
 
-    public bool canBlinkOrTwitch;
+    private bool canBlinkOrTwitch;
     
     
     #endregion
@@ -153,6 +154,7 @@ public class Eyeball : MonoBehaviour
         _eyeballTargetRot = _eyeballBaseRot;
         ScheduleMicro();
         ScheduleCorrection();
+        eyeballTrackTarget = null;
         
         // BlendShape
         Mesh mesh = skinnedMeshRenderer.sharedMesh;
@@ -316,8 +318,15 @@ public class Eyeball : MonoBehaviour
     
     private void HandleEyeballTracking()
     {
-        // Looking at the object while the rotation being clamped
-        
+        // Make the eyeball look at the direction of the object, with clamped value
+        if (!eyeballTrackTarget)
+        {
+            HandleEyeballIdling();
+        }
+        else
+        {
+            
+        }
     }
 
     private void HandleEyeballAgitated()
@@ -401,7 +410,18 @@ public class Eyeball : MonoBehaviour
     /// </param>
     public void SetEyeballState(EyeballState newState)
     {
+        Debug.Log("Changing eyeball state to: " + newState);
         currentEyeballState = newState;
+    }
+
+    public void SetEyeballCanBlinkOrTwitch(bool can)
+    {
+        canBlinkOrTwitch = can;
+    }
+
+    public void SetEyeballTrackingTargetTrans(Transform targetTrans)
+    {
+        eyeballTrackTarget = targetTrans;
     }
 
     private float GetSaccadeSpeed(EyeballState state)

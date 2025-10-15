@@ -289,6 +289,7 @@ MonoBehaviour:
   catchUpSpeed: 5
   currentSpeculumState: 0
   movingTowardsEye: 0
+  eyeTrackingTrans: {fileID: 1939041921}
 --- !u!1 &138836898
 GameObject:
   m_ObjectHideFlags: 0
@@ -2481,6 +2482,7 @@ MonoBehaviour:
   saccadeSpeed: 60
   microInterval: {x: 0.1, y: 0.3}
   correctionInterval: {x: 3, y: 6}
+  eyeballTrackTarget: {fileID: 0}
   agitatedMicroRange: 0.25
   agitatedCorrectionRange: 11
   agitatedSaccadeSpeed: 300
@@ -2504,7 +2506,6 @@ MonoBehaviour:
   mediumTwitchClip: {fileID: 1827226128182048838, guid: 5caf9bb2e5d857d409aac00fdc666881, type: 3}
   largeTwitchClip: {fileID: 1827226128182048838, guid: 20a11d35530d3ba45b157e3083edeb97, type: 3}
   eyeNeutral: {fileID: 1668507168}
-  canBlinkOrTwitch: 0
 --- !u!95 &917949999
 Animator:
   serializedVersion: 7
@@ -5099,6 +5100,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5415834834503672826, guid: dbc63edc2a509b54a81ff02003f2d947, type: 3}
   m_PrefabInstance: {fileID: 1939041919}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1939041921 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1994704658989583904, guid: dbc63edc2a509b54a81ff02003f2d947, type: 3}
+  m_PrefabInstance: {fileID: 1939041919}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &1939041923 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 481781462346161155, guid: dbc63edc2a509b54a81ff02003f2d947, type: 3}
@@ -5268,6 +5274,7 @@ MonoBehaviour:
   drip: {fileID: 4516711086685474339, guid: 244fe454dc3c9104cb12d20b2b695cd7, type: 3}
   dropperTip: {fileID: 1215993596}
   dropperPickUpClip: {fileID: 7400000, guid: 7a055a7bd6f3b2c449b51856cbcffd3a, type: 2}
+  eyeballScript: {fileID: 917949998}
 --- !u!95 &2002613213
 Animator:
   serializedVersion: 7
