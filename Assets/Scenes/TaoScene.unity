@@ -2452,10 +2452,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3.7819176
+  m_Radius: 3.703518
   m_Height: 11.695041
   m_Direction: 0
-  m_Center: {x: 0.111793995, y: -0.48444462, z: 1.916543}
+  m_Center: {x: 0.111793995, y: -2.0053873, z: 1.9165435}
 --- !u!114 &917949998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2483,6 +2483,7 @@ MonoBehaviour:
   microInterval: {x: 0.1, y: 0.3}
   correctionInterval: {x: 3, y: 6}
   eyeballTrackTarget: {fileID: 0}
+  trackSpeed: 30
   agitatedMicroRange: 0.25
   agitatedCorrectionRange: 11
   agitatedSaccadeSpeed: 300
@@ -2491,6 +2492,8 @@ MonoBehaviour:
   baseRotResetInterval: {x: 4, y: 8}
   currentEyeballState: 0
   eyeballTrans: {fileID: 765404023}
+  xAxisRotInterval: {x: -13, y: 13}
+  yAxisRotInterval: {x: -25, y: 21}
   skinnedMeshRenderer: {fileID: 1944875103}
   bsWeights:
   - 0
@@ -2514,7 +2517,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 917949994}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 0}
   m_CullingMode: 0

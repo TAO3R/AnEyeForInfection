@@ -209,7 +209,7 @@ public class Speculum : MonoBehaviour
         currentSpeculumState = SpeculumState.OnEye;
         
         // Eyeball
-        eyeballScript.SetEyeballState(EyeballState.Agitated);
+        eyeballScript.SetEyeballState(EyeballState.Idling);
         eyeballScript.SetEyeballTrackingTargetTrans(null);
     }
 

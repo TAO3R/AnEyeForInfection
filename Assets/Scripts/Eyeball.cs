@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
@@ -83,6 +84,7 @@ public class Eyeball : MonoBehaviour
     
     // Tracking
     [SerializeField] private Transform eyeballTrackTarget;
+    [SerializeField] private float trackSpeed;
     
     // Agitated
     [SerializeField] private float agitatedMicroRange;                      // tiny jitter (degrees)
@@ -97,6 +99,7 @@ public class Eyeball : MonoBehaviour
     // Shared
     [SerializeField] private EyeballState currentEyeballState;
     [SerializeField] private Transform eyeballTrans;
+    [SerializeField] private Vector2 xAxisRotInterval, yAxisRotInterval;
     private Quaternion _eyeballBaseRot;
     private Quaternion _eyeballTargetRot;
     private float _nextMicroTime;
@@ -325,7 +328,16 @@ public class Eyeball : MonoBehaviour
         }
         else
         {
-            
+            Vector3 offset = eyeballTrackTarget.position - eyeballTrans.position;
+            float x = Mathf.Clamp(
+                Mathf.Atan(offset.y / offset.z) / (2 * Mathf.PI) * 360f,
+                xAxisRotInterval.x,
+                xAxisRotInterval.y);
+            float y = Mathf.Clamp(
+                Mathf.Atan(offset.x / offset.z) / (2 * Mathf.PI) * 360f,
+                yAxisRotInterval.x,
+                yAxisRotInterval.y);
+            _eyeballTargetRot = Quaternion.Euler(x, y, 0);
         }
     }
 
@@ -426,7 +438,17 @@ public class Eyeball : MonoBehaviour
 
     private float GetSaccadeSpeed(EyeballState state)
     {
-        return state == EyeballState.Agitated ? agitatedSaccadeSpeed : saccadeSpeed;
+        switch (state)
+        {
+            case EyeballState.Idling:
+                return saccadeSpeed;
+            case EyeballState.Tracking:
+                return trackSpeed;
+            case EyeballState.Agitated:
+                return agitatedSaccadeSpeed;
+            default:
+                return saccadeSpeed;
+        }
     }
     
     /// <summary>
@@ -443,10 +465,10 @@ public class Eyeball : MonoBehaviour
          float y = NormalizeEulerAngle(eyeballTrans.localEulerAngles.y);
          
          // Up Down Left Right => bsWeights[3-6]
-         bsWeights[(int)BlendShapes.Up] = MapClamped(x, 0f, -13f, 0f, 100f);
-         bsWeights[(int)BlendShapes.Down] = MapClamped(x, 0f, 13f, 0f, 100f);
-         bsWeights[(int)BlendShapes.Left] = MapClamped(y, 0f, 21f, 0f, 100f);
-         bsWeights[(int)BlendShapes.Right] = MapClamped(y, 0f, -25f, 0f, 100f);
+         bsWeights[(int)BlendShapes.Up] = MapClamped(x, 0f, xAxisRotInterval.x, 0f, 100f);
+         bsWeights[(int)BlendShapes.Down] = MapClamped(x, 0f, xAxisRotInterval.y, 0f, 100f);
+         bsWeights[(int)BlendShapes.Left] = MapClamped(y, 0f, yAxisRotInterval.y, 0f, 100f);
+         bsWeights[(int)BlendShapes.Right] = MapClamped(y, 0f, yAxisRotInterval.x, 0f, 100f);
     }
 
     private float NormalizeEulerAngle(float angle)
