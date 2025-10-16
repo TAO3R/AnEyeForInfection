@@ -88,7 +88,7 @@ public class Speculum : MonoBehaviour
     #region Input Action Callbacks
     
     /// <summary>
-    /// Called when the speculum is picked up from the tray, on-tray button released
+    /// Called when the speculum on-tray button is released
     /// </summary>
     public void OnPickedUp()
     {
@@ -98,7 +98,7 @@ public class Speculum : MonoBehaviour
         // Speculum state
         if (_speculumResetCoroutine != null)
         {
-            StopCoroutine(ResetSpeculum());
+            StopCoroutine(_speculumResetCoroutine);
             _speculumResetCoroutine = null;
             isResetting = false;
         }
@@ -128,9 +128,6 @@ public class Speculum : MonoBehaviour
             // Reset speculum before becoming on air
             _speculumResetCoroutine = StartCoroutine(ResetSpeculum());
         }
-        
-        // Sound
-        SoundManager.Instance.CallSoundPrefabFunction(speculumSounds[1], speculumGo);
     }
     
     /// <summary>
@@ -209,8 +206,19 @@ public class Speculum : MonoBehaviour
         currentSpeculumState = SpeculumState.OnEye;
         
         // Eyeball
-        eyeballScript.SetEyeballState(EyeballState.Idling);
         eyeballScript.SetEyeballTrackingTargetTrans(null);
+        
+        // State
+        if (InputManager.Instance.PullUpAction.action.ReadValue<float>() > 0)
+        {
+            // Already pulling the eye open
+            eyeballScript.SetEyeballState(EyeballState.Agitated);
+        }
+        else
+        {
+            // Not pulling the eye open yet
+            eyeballScript.SetEyeballState(EyeballState.Idling);
+        }
     }
 
     private void OnSpeculumOnTray()
@@ -223,17 +231,26 @@ public class Speculum : MonoBehaviour
         eyeballScript.SetEyeballCanBlinkOrTwitch(true);
         eyeballScript.SetEyeballState(EyeballState.Idling);
         eyeballScript.SetEyeballTrackingTargetTrans(null);
+        
+        // Sound
+        SoundManager.Instance.CallSoundPrefabFunction(speculumSounds[1], speculumGo);
     }
 
     
     private void CatchUpClipInput()
     {
         float currentWeight = speculumRenderer.GetBlendShapeWeight(0);                  // 0 ~ 100
+        // Debug.Log("[Speculum]: Current weight: " + currentWeight);
         float triggerInput = InputManager.Instance.PullUpAction.action.ReadValue<float>();      // 0 ~ 1
+        // Debug.Log("[Speculum]: Trigger input: " + triggerInput);
         float targetWeight = triggerInput * 100;                                                // 0 ~ 100
 
-        float difference = Mathf.Abs(targetWeight - currentWeight);
-        float speed = difference * catchUpSpeed;
+        float difference = targetWeight - currentWeight;
+        float speed = Mathf.Abs(difference) * catchUpSpeed;
+        
+        // Debug.Log("[Speculum]: Setting speculum blendshape weight to " + Mathf.Clamp(currentWeight += difference * catchUpSpeed * Time.deltaTime,
+        //     0f,
+        //     100f));
         
         speculumRenderer.SetBlendShapeWeight(
             0,
@@ -241,6 +258,15 @@ public class Speculum : MonoBehaviour
                 currentWeight,
                 targetWeight, 
                 speed * Time.deltaTime));
+        
+        // Mathf.MoveTowards(
+        //     currentWeight,
+        //     targetWeight, 
+        //     speed * Time.deltaTime)
+        
+        // Mathf.Clamp(currentWeight += difference * catchUpSpeed * Time.deltaTime,
+        //     0f,
+        //     100f)
         
         // Make the eye follow the speculum
         SyncEyeOpenWithSpeculum();
@@ -259,6 +285,7 @@ public class Speculum : MonoBehaviour
         while (speculumRenderer.GetBlendShapeWeight(0) > 0.5f)
         {
             // Debug.Log("speculum BS weight: " + speculumRenderer.GetBlendShapeWeight(0));
+            // Debug.Log("Resetting speculum");
             // Speculum renderer weight
             var currentWeight = speculumRenderer.GetBlendShapeWeight(0);
             // Reset speculum
