@@ -38,10 +38,10 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private Judgement judgement;
 
-    [SerializeField] private GameObject lightsGO;
-    [SerializeField] private GameObject eyeGO;
+    [SerializeField] private GameObject lightsGo;
+    [SerializeField] private GameObject eyeGo;
 
-    public GameObject spotlightGO;
+    public GameObject spotlightGo;
 
 
     //private float textDelay;
@@ -135,8 +135,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private PatientObject currentPatient;
     public PatientObject CurrentPatient => currentPatient;
-    public EyeObject currentEyeball;
-    public bool currentEyeIsLeft;
+    // public EyeObject currentEyeball;
+    // public bool currentEyeIsLeft;
     
     // Keep track of the time remaining for the current patient to twitch
     [SerializeField]
@@ -239,7 +239,7 @@ public class LevelManager : MonoBehaviour
             //endOfDay.dayNumber++;
             // StartCoroutine(WaitToShowBlood());
             endOfDay.ShowPopup();
-            lightsGO.SetActive(false);
+            lightsGo.SetActive(false);
             
             Debug.LogError("The patient list is empty!");
             return;
@@ -251,7 +251,7 @@ public class LevelManager : MonoBehaviour
         patientList.Remove(currentPatient);
         
         // Get the left eyeball of the current patient
-        currentEyeball = currentPatient.LeftEye;
+        // currentEyeball = currentPatient.LeftEye;
         
         // Update visuals
         UpdateEyeball();
@@ -269,24 +269,24 @@ public class LevelManager : MonoBehaviour
     {
         Debug.Log("[LevelManager]: updating eyeball");
         
-        eyeballRenderer.material = eyeballMaterials[(int)currentEyeball.BloodshotType];
-        irisRenderer.material = irisMaterials[(int)currentEyeball.ColorType];
+        eyeballRenderer.material = eyeballMaterials[(int)currentPatient.BloodshotType];
+        irisRenderer.material = irisMaterials[(int)currentPatient.ColorType];
 
         pupilAnim.SetBool("Dilate", false);
     }
 
     // Sets the current eyeball to the opposite of what it is currently looking at
-    public void SetCurrentEyeball()
-    {
-        if (currentEyeIsLeft)
-        {
-            currentEyeball = currentPatient.LeftEye;
-        }
-        else
-        {
-            currentEyeball = currentPatient.RightEye;
-        }
-    }
+    // public void SetCurrentEyeball()
+    // {
+    //     if (currentEyeIsLeft)
+    //     {
+    //         currentEyeball = currentPatient.LeftEye;
+    //     }
+    //     else
+    //     {
+    //         currentEyeball = currentPatient.RightEye;
+    //     }
+    // }
 
     /// Get a new blink cooldown for the current patient
     private float GetNewBlinkCd()
@@ -329,7 +329,7 @@ public class LevelManager : MonoBehaviour
             // Patient Info
             // throw new NotImplementedException("Need to set up patient info on each ID cards.");
             
-            tempID.GetComponentInChildren<Renderer>().material = patientList[index].PatientAvatar;
+            tempID.GetComponentInChildren<Renderer>().material = patientList[index].PatientIdPhoto;
         }
         
         patientList.Reverse();
@@ -359,7 +359,7 @@ public class LevelManager : MonoBehaviour
         stampAnim.SetBool("PutDown", false);
         
         // Spot light off
-        spotlightGO.SetActive(false);
+        spotlightGo.SetActive(false);
     }
     
     /// <summary>
@@ -379,7 +379,7 @@ public class LevelManager : MonoBehaviour
         isZoomedIn = false;
         stampAnim.SetBool("PickedUp", false);
         stampAnim.SetBool("PutDown", true);
-        spotlightGO.SetActive(true);
+        spotlightGo.SetActive(true);
     }
     
     /// <summary>

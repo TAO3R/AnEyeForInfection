@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 public class SwapEye : MonoBehaviour
 {
     [Header("Input Action")]
-    [SerializeField] private InputActionReference swapEyeAction;
+    // [SerializeField] private InputActionReference swapEyeAction;
 
     [SerializeField] private Transform eyeModel;
 
@@ -15,14 +15,14 @@ public class SwapEye : MonoBehaviour
 
     private void OnEnable()
     {
-        swapEyeAction.action.performed += OnEyeSwap;
-        swapEyeAction.action.Enable();
+        // swapEyeAction.action.performed += OnEyeSwap;
+        // swapEyeAction.action.Enable();
     }
 
     private void OnDisable()
     {
-        swapEyeAction.action.performed -= OnEyeSwap;
-        swapEyeAction.action.Disable();
+        // swapEyeAction.action.performed -= OnEyeSwap;
+        // swapEyeAction.action.Disable();
     }
 
     private void OnEyeSwap(InputAction.CallbackContext ctx)
@@ -30,8 +30,8 @@ public class SwapEye : MonoBehaviour
         Debug.Log("swapping eyes");
 
         // swap bool to other eye; left eye will always be shown by default
-        LevelManager.Instance.currentEyeIsLeft = !LevelManager.Instance.currentEyeIsLeft;
-        LevelManager.Instance.SetCurrentEyeball();
+        // LevelManager.Instance.currentEyeIsLeft = !LevelManager.Instance.currentEyeIsLeft;
+        // LevelManager.Instance.SetCurrentEyeball();
 
         // Light out
         sequenceDirector.Play();

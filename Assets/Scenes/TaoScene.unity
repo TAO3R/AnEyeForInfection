@@ -350,9 +350,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4ca82f9b1b3bcf04b814cc1e00d73087, type: 2}
   - {fileID: 11400000, guid: 33b629b14325b6447a229f667bc4dece, type: 2}
   judgement: {fileID: 1368349237}
-  lightsGO: {fileID: 2047049791}
-  eyeGO: {fileID: 917949994}
-  spotlightGO: {fileID: 1643203782}
+  lightsGo: {fileID: 2047049791}
+  eyeGo: {fileID: 917949994}
+  spotlightGo: {fileID: 1643203782}
   eyeballMaterials:
   - {fileID: 2100000, guid: 48629c4739159ba458b189d3f30edfa0, type: 2}
   - {fileID: 2100000, guid: ef3f8fab63a8ca5408dfbeb03169954d, type: 2}
@@ -388,8 +388,6 @@ MonoBehaviour:
   waitToChangePatient: 1.5
   patientSwapSFX: {fileID: 8300000, guid: 79b88f90bade7be4386a68ed97662005, type: 3}
   currentPatient: {fileID: 0}
-  currentEyeball: {fileID: 0}
-  currentEyeIsLeft: 1
   blinkCd: 0
   twitchCd: 0
   currentIDCardOnTrayTempLocalPos: {x: 0, y: 0, z: 0}
@@ -3240,7 +3238,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 727585afd5d3a7f4c9af6a5f533481e9, type: 3}
   judgedInfected: 0
   endOfDay: {fileID: 2140843633}
-  spotlightGo: {fileID: 0}
+  spotlightGo: {fileID: 1643203782}
   pupilAnim: {fileID: 1960410790}
 --- !u!1 &1463943514
 GameObject:
@@ -5752,7 +5750,7 @@ MonoBehaviour:
   showDuration: 4
   fadeDuration: 1
   nextScene: Build_1
-  judgement: {fileID: 0}
+  judgement: {fileID: 1368349237}
 --- !u!114 &2140843634
 MonoBehaviour:
   m_ObjectHideFlags: 0

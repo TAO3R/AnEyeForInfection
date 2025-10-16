@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: Patient2
   m_EditorClassIdentifier: 
   isInfected: 1
-  twitchDegree: 0
-  leftEye: {fileID: 11400000, guid: e5e4e5b6084d8b94483d6901bd0dafa6, type: 2}
-  rightEye: {fileID: 0}
-  patientAvatar: {fileID: 2100000, guid: ce72a121aee6bbd408feeba84150149b, type: 2}
+  patientIdPhoto: {fileID: 2100000, guid: ce72a121aee6bbd408feeba84150149b, type: 2}
   peopleKilled: 31
   entryText: "Make it quick\u2026 I need to take my medicine\u2026"
   infectedText: "Ah\u2026 help\u2026 help m-"
   acceptedText: "Thank you\u2026 ugh\u2026"
   voice: {fileID: 8300000, guid: 7712610c377cd074f8e05e3ac06d975a, type: 3}
+  bloodshotType: 3
+  willDilate: 1
+  twitchDegree: 0
+  colorType: 2

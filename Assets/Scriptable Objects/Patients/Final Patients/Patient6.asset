@@ -16,7 +16,7 @@ MonoBehaviour:
   twitchDegree: 0
   leftEye: {fileID: 11400000, guid: 11a26fb8f0503434182845451c9aa260, type: 2}
   rightEye: {fileID: 0}
-  patientAvatar: {fileID: 2100000, guid: 9f15885d03f60fa469e26a3c83d50653, type: 2}
+  patientIdPhoto: {fileID: 2100000, guid: 9f15885d03f60fa469e26a3c83d50653, type: 2}
   peopleKilled: 81
   entryText: "Afternoon! Beautiful day, isn\u2019t it? It took me weeks to get here,
     but I made it. My new life starts today!"
@@ -25,3 +25,6 @@ MonoBehaviour:
   acceptedText: Oh, really? To tell the truth, I was a little worried. By the way,
     you feeling alright?
   voice: {fileID: 8300000, guid: 1d764fa52f53dbd429c3ad0caaa7b3e9, type: 3}
+  willDilate: 0
+  bloodshotType: 0
+  colorType: 0

@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Patient3
   m_EditorClassIdentifier: 
   isInfected: 1
-  twitchDegree: 0
-  leftEye: {fileID: 11400000, guid: ff2c5afa684bdd14c925215ee53a2dbf, type: 2}
-  rightEye: {fileID: 0}
-  patientAvatar: {fileID: 2100000, guid: b8cd532936d8b5a41aea11be723e1d56, type: 2}
+  patientIdPhoto: {fileID: 2100000, guid: b8cd532936d8b5a41aea11be723e1d56, type: 2}
   peopleKilled: 0
   entryText: "Um\u2026 hi\u2026 Sorry, I\u2019m kind of nervous\u2026 will this be
     painful? Will it take long? Sorry, I\u2019m asking too many questions\u2026 sorry\u2026"
   infectedText: "Huh? What\u2019s over this way? Oh\u2026 that's\u2026 I\u2019m sorry."
   acceptedText: "Sorry\u2026 ah, I mean, thank you! Thank you\u2026"
   voice: {fileID: 8300000, guid: a2c334f3950531345886ea5bcfaede15, type: 3}
+  bloodshotType: 4
+  willDilate: 1
+  twitchDegree: 0
+  colorType: 3

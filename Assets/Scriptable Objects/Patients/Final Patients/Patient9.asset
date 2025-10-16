@@ -16,7 +16,7 @@ MonoBehaviour:
   twitchDegree: 0
   leftEye: {fileID: 11400000, guid: 91650d60757b00341b260ec7f349bbb1, type: 2}
   rightEye: {fileID: 0}
-  patientAvatar: {fileID: 2100000, guid: 6e022ceb373e56e4e8156dd02be06485, type: 2}
+  patientIdPhoto: {fileID: 2100000, guid: 6e022ceb373e56e4e8156dd02be06485, type: 2}
   peopleKilled: 1
   entryText: "These tools. Those stamps. Innocent, Infected. You\u2019ve found yourself
     in quite the powerful position, haven\u2019t you? The one who decides who lives
@@ -27,3 +27,6 @@ MonoBehaviour:
   acceptedText: People die no matter which way you choose. The lesser of two evils,
     or just two roads with the same destination
   voice: {fileID: 8300000, guid: 61734409d5dc08d47b3c1146d42fd439, type: 3}
+  willDilate: 0
+  bloodshotType: 0
+  colorType: 0
