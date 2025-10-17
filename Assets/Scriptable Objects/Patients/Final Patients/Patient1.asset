@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInfected: 0
   patientIdPhoto: {fileID: 2100000, guid: 9b28382a3b430e34ca90d49c56075798, type: 2}
+  skinColorType: 0
   peopleKilled: 0
   entryText: "Hey there, this your first day? Just be gentle, I\u2019ve been through
     hell to get here."
@@ -21,6 +22,21 @@ MonoBehaviour:
   acceptedText: "Maybe I\u2019ll see you around. Take it easy."
   voice: {fileID: 8300000, guid: e38bab9eea040ff48b913160dc934759, type: 3}
   bloodshotType: 0
+  eyeColorType: 0
+  willTrackTool: 1
   willDilate: 1
+  blinkCd: {x: 0, y: 0}
+  blinkCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchCd: {x: 0, y: 0}
+  twitchCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   twitchDegree: 0
-  colorType: 0

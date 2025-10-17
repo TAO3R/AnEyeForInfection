@@ -377,9 +377,6 @@ MonoBehaviour:
   skinRenderer: {fileID: 1944875103}
   eyeballScript: {fileID: 917949998}
   pupilAnim: {fileID: 1960410790}
-  humanBlinkCd: {x: 7, y: 10}
-  infectedBlinkCd: {x: 5, y: 8}
-  infectedTwitchCd: {x: 4, y: 7}
   idCardRotationCenter: {fileID: 449731147}
   idCardPrefab: {fileID: 5167261891178487315, guid: 92110900492dfa24d863c8d71fd1b4b7, type: 3}
   maxRotationZ: 15
@@ -5283,6 +5280,7 @@ MonoBehaviour:
   dropperTip: {fileID: 1215993596}
   dropperPickUpClip: {fileID: 7400000, guid: 7a055a7bd6f3b2c449b51856cbcffd3a, type: 2}
   eyeballScript: {fileID: 917949998}
+  speculumScript: {fileID: 57689021}
 --- !u!95 &2002613213
 Animator:
   serializedVersion: 7

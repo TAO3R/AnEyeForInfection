@@ -35,6 +35,7 @@ public class Speculum : MonoBehaviour
     private float catchUpSpeed;
     
     [SerializeField] private SpeculumState currentSpeculumState;
+    public SpeculumState CurrentSpeculumState => currentSpeculumState;
     [SerializeField] private bool movingTowardsEye;
     [SerializeField] private Transform eyeTrackingTrans;
     

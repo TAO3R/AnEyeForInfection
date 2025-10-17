@@ -42,7 +42,7 @@ public class EyeDropper : MonoBehaviour
     private GameObject dropperGo;
 
     [Header("Eyeball")] [SerializeField] private Eyeball eyeballScript;
-    
+    [SerializeField] private Speculum speculumScript;
     
 
     private void Start()
@@ -148,7 +148,17 @@ public class EyeDropper : MonoBehaviour
         eyeDropperCurrentState = EyeDropperStates.PickedUp;
         
         // Eyeball
-        eyeballScript.SetEyeballState(EyeballState.Idling);
+        if (InputManager.Instance.PullUpAction.action.ReadValue<float>() > 0
+            &&
+            speculumScript.CurrentSpeculumState == Speculum.SpeculumState.OnEye)
+        {
+            eyeballScript.SetEyeballState(EyeballState.Agitated);
+        }
+        else
+        {
+            eyeballScript.SetEyeballState(EyeballState.Idling);
+        }
+        
         eyeballScript.SetEyeballTrackingTargetTrans(null);
     }
     
@@ -157,7 +167,16 @@ public class EyeDropper : MonoBehaviour
         eyeDropperCurrentState = EyeDropperStates.OnTray;
         
         // Eyeball
-        eyeballScript.SetEyeballState(EyeballState.Idling);
+        if (InputManager.Instance.PullUpAction.action.ReadValue<float>() > 0
+            &&
+            speculumScript.CurrentSpeculumState == Speculum.SpeculumState.OnEye)
+        {
+            eyeballScript.SetEyeballState(EyeballState.Agitated);
+        }
+        else
+        {
+            eyeballScript.SetEyeballState(EyeballState.Idling);
+        }
         eyeballScript.SetEyeballTrackingTargetTrans(null);
     }
     
