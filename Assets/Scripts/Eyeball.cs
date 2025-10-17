@@ -322,7 +322,7 @@ public class Eyeball : MonoBehaviour
     private void HandleEyeballTracking()
     {
         // Make the eyeball look at the direction of the object, with clamped value
-        if (!eyeballTrackTarget)
+        if (!eyeballTrackTarget || !LevelManager.Instance.CurrentPatient.WillTrackTool)
         {
             HandleEyeballIdling();
         }

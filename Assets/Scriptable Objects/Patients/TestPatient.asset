@@ -13,15 +13,56 @@ MonoBehaviour:
   m_Name: TestPatient
   m_EditorClassIdentifier: 
   isInfected: 1
-  twitchDegree: 3
-  leftEye: {fileID: 0}
-  rightEye: {fileID: 0}
   patientIdPhoto: {fileID: 2100000, guid: 6e022ceb373e56e4e8156dd02be06485, type: 2}
+  skinColorType: 0
   peopleKilled: 114514
   entryText: temp entry text
   infectedText: temp infected text
   acceptedText: temp accepted text
   voice: {fileID: 8300000, guid: eb8e28740f8b52641bae1a65017611b5, type: 3}
-  willDilate: 1
   bloodshotType: 5
-  colorType: 4
+  eyeColorType: 5
+  willTrackTool: 0
+  willDilate: 1
+  blinkCd: {x: 0.5, y: 5}
+  blinkCdSampler:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.8379552
+      value: 0.088465236
+      inSlope: 0.14419033
+      outSlope: 0.14419033
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.052443758
+      outWeight: 0.20434622
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchCd: {x: 4, y: 7}
+  twitchCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchDegree: 3

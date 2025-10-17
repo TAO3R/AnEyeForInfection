@@ -368,6 +368,13 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 0a3c0c9a39d01eb4ca6faa6e1f8c619a, type: 2}
   - {fileID: 2100000, guid: fd20cb4f2a339e24d9291118bb9508e9, type: 2}
   irisRenderer: {fileID: 1358384031}
+  skinMaterials:
+  - {fileID: 2100000, guid: 0e3742e116559684596b9c8c5b6889f0, type: 2}
+  - {fileID: 2100000, guid: 0e3742e116559684596b9c8c5b6889f0, type: 2}
+  - {fileID: 2100000, guid: 0e3742e116559684596b9c8c5b6889f0, type: 2}
+  - {fileID: 2100000, guid: 0e3742e116559684596b9c8c5b6889f0, type: 2}
+  - {fileID: 2100000, guid: 0e3742e116559684596b9c8c5b6889f0, type: 2}
+  skinRenderer: {fileID: 1944875103}
   eyeballScript: {fileID: 917949998}
   pupilAnim: {fileID: 1960410790}
   humanBlinkCd: {x: 7, y: 10}

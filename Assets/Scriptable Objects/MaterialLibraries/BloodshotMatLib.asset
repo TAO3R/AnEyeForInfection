@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8edce59708323914b86a003ec9b68d66, type: 3}
+  m_Name: BloodshotMatLib
+  m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: 48629c4739159ba458b189d3f30edfa0, type: 2}
+  - {fileID: 2100000, guid: ef3f8fab63a8ca5408dfbeb03169954d, type: 2}
+  - {fileID: 2100000, guid: c805f92ca7d898d43879e35d21c983ff, type: 2}
+  - {fileID: 2100000, guid: f4333780d7401404c85286884d4c1f68, type: 2}
+  - {fileID: 2100000, guid: 70078fd9fb56cb84ab9f710b2eaaa139, type: 2}
+  - {fileID: 2100000, guid: ef9911e3112d97b4691dabb93cb96650, type: 2}

@@ -1,6 +1,36 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
+public enum Bloodshot
+{
+    NotAssigned,
+    NoBloodshot,
+    Type1,
+    Type2,
+    Type3,
+    Type4,
+    Type5
+}
+
+public enum EyeColor
+{
+    NotAssigned,
+    Brown,
+    Black,
+    Green,
+    Blue,
+    White
+}
+
+public enum SkinColor
+{
+    NotAssigned,
+    Color1,
+    Color2,
+    Color3,
+    Color4,
+    Color5
+}
 
 [CreateAssetMenu(fileName = "PatientObject", menuName = "Scriptable Objects/PatientObject")]
 public class PatientObject : ScriptableObject
@@ -8,18 +38,14 @@ public class PatientObject : ScriptableObject
     #region Variabels
     
     [Header("Patient")]
-    [Tooltip("Whether the patient is infected")]
-    [SerializeField] private bool isInfected;
     
-    // [Tooltip("Must assign in the inspector")]
-    // [SerializeField] private EyeObject leftEye, rightEye;
-
-    [Tooltip("Assign in the inspector")]
+    [SerializeField] private bool isInfected;
     [SerializeField] private Material patientIdPhoto;
 
-    [Tooltip("Assigned at runtime")]
-    [System.NonSerialized]
-    public Transform idCard;
+    [SerializeField] private SkinColor skinColorType;
+
+    // Assigned during runtime
+    [System.NonSerialized] public Transform idCard;
     
     [Tooltip("The number of people that gets killed if this patient is let in, assign in the inspector")]
     [SerializeField] private int peopleKilled;
@@ -30,49 +56,98 @@ public class PatientObject : ScriptableObject
     [Tooltip("Audio clip of the voice of the patient")] [SerializeField]
     private AudioClip voice;
     
+    
+    
     [Header("Eyeball")]
+    
     [Tooltip("The type of bloodshot this eye has")]
     [SerializeField] private Bloodshot bloodshotType;
     
+    [Tooltip("Eye color of this eye")]
+    [SerializeField] private EyeColor eyeColorType;
+
+    [Tooltip("Whether the eye will track tools when they are picked up")]
+    [SerializeField] private bool willTrackTool;
+    
+    
+    
+    [Header("Dilate")]
+   
     [Tooltip("Whether this eye will dilate")]
     [SerializeField] private bool willDilate;
+
+
+
+    [Header("Blink")]
+    
+    [Tooltip("The lower and upper bounds of cooldowns between two blinks")]
+    [SerializeField] private Vector2 blinkCd;
+    
+    [Tooltip("Used to modify the distribution of blink cd. A curve of y = x will have the range of blink cd being equally sampled")]
+    [SerializeField] private AnimationCurve blinkCdSampler;
+    
+    
+    
+    [Header("Twitch")]
+    
+    [Tooltip("The lower and upper bounds of cooldowns between two twitches")]
+    [SerializeField] private Vector2 twitchCd;
+    
+    [Tooltip("Used to modify the distribution of twitch cd. A curve of y = x will have the range of twitch cd being equally sampled")]
+    [SerializeField] private AnimationCurve twitchCdSampler;
     
     [Tooltip("How will the eye twitch")]
     [SerializeField] private EyeTwitchDegree twitchDegree;
     
-    [Tooltip("Eye color of this eye")]
-    [SerializeField] private EyeColor colorType;
-   
-    
-    
     #endregion
+    
+    
     
     #region Getters
     
+    // Patient
     public bool IsInfected => isInfected;
-    public EyeTwitchDegree TwitchDegree => twitchDegree;
-    // public EyeObject LeftEye => leftEye;
-    // public EyeObject RightEye => rightEye;
-    // public bool BothEyeDilate => leftEye.WillDilate && rightEye.WillDilate;
     public Material PatientIdPhoto => patientIdPhoto;
+    public SkinColor SkinColorType => skinColorType == SkinColor.NotAssigned ? SkinColor.Color1 : skinColorType;
     public int PeopleKilled => peopleKilled;
     public string EntryText => entryText;
     public string InfectedText => infectedText;
     public string AcceptedText => acceptedText;
+    public AudioClip Voice => voice;    
     
+    // Eyeball
+    public Bloodshot BloodshotType => bloodshotType == Bloodshot.NotAssigned ? Bloodshot.NoBloodshot : bloodshotType;
+    public EyeColor ColorType => eyeColorType == EyeColor.NotAssigned ? EyeColor.Black : eyeColorType;
+    public bool WillTrackTool => willTrackTool;
+    
+    // Dilate
     // Only won't dilate if the patient is infected and set as cannot dilate
     public bool WillDilate => (!isInfected || willDilate);
+    
+    // Blink
+    public Vector2 BlinkCd => blinkCd == Vector2.zero ? 
+        (isInfected ? new Vector2(5, 8) : new Vector2(7, 10)) :
+        blinkCd;
+    public AnimationCurve BlinkCdSampler => blinkCdSampler.keys.Length > 0 ?
+        blinkCdSampler :
+        AnimationCurve.Linear(0, 0, 1, 1);
+    
+    // Twitch
+    public Vector2 TwitchCd => twitchCd == Vector2.zero ?
+        new Vector2(4, 7) :
+        twitchCd;
+
+    public AnimationCurve TwitchCdSampler =>
+        twitchCdSampler.keys.Length > 0 ? twitchCdSampler : AnimationCurve.Linear(0, 0, 1, 1);
+    public EyeTwitchDegree TwitchDegree => twitchDegree;
+    
+    
     
     // Won't have bloodshot if the patient is not infected, default to type 1 if is infected and not assigned a type
     // public Bloodshot BloodshotType => patient.IsInfected ?
     //                                   (bloodshotType == Bloodshot.NotAssigned ? Bloodshot.Type1 : bloodshotType) : 
     //                                   Bloodshot.NoBloodshot;
-    public Bloodshot BloodshotType => bloodshotType;
     
-    public EyeColor ColorType => colorType == EyeColor.NotAssigned ? EyeColor.Black : colorType;
-
-    public AudioClip Voice => voice;    
-
     #endregion
 
 }   // End of class

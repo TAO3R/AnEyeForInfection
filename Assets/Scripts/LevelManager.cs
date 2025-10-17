@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -63,6 +64,13 @@ public class LevelManager : MonoBehaviour
     
     [Tooltip("Assign in the inspector")] [SerializeField]
     private Renderer irisRenderer; // Assign in the inspector
+    
+    [Tooltip("Assign materials in an order that their indices match int value of their enum type")] [SerializeField]
+    private List<Material> skinMaterials;
+    
+    [Tooltip("Assign in the inspector")] [SerializeField]
+    private Renderer skinRenderer; // Assign in the inspector
+
 
     [SerializeField] private Eyeball eyeballScript;
 
@@ -74,13 +82,13 @@ public class LevelManager : MonoBehaviour
     
     #region Twitch Variables
 
-    [Header("Twitch")]
-    [Tooltip("Assign in the inspector")] [SerializeField]
-    private Vector2 humanBlinkCd;
-    [Tooltip("Assign in the inspector")] [SerializeField]
-    private Vector2 infectedBlinkCd;
-    [Tooltip("Assign in the inspector")] [SerializeField]
-    private Vector2 infectedTwitchCd;
+    // [Header("Twitch")]
+    // [Tooltip("Assign in the inspector")] [SerializeField]
+    // private Vector2 humanBlinkCd;
+    // [Tooltip("Assign in the inspector")] [SerializeField]
+    // private Vector2 infectedBlinkCd;
+    // [Tooltip("Assign in the inspector")] [SerializeField]
+    // private Vector2 infectedTwitchCd;
     
     #endregion
 
@@ -269,8 +277,9 @@ public class LevelManager : MonoBehaviour
     {
         Debug.Log("[LevelManager]: updating eyeball");
         
-        eyeballRenderer.material = eyeballMaterials[(int)currentPatient.BloodshotType];
-        irisRenderer.material = irisMaterials[(int)currentPatient.ColorType];
+        eyeballRenderer.material = eyeballMaterials[(int)currentPatient.BloodshotType - 1];
+        irisRenderer.material = irisMaterials[(int)currentPatient.ColorType - 1];
+        skinRenderer.material = skinMaterials[(int)currentPatient.SkinColorType - 1];
 
         pupilAnim.SetBool("Dilate", false);
     }
@@ -291,15 +300,35 @@ public class LevelManager : MonoBehaviour
     /// Get a new blink cooldown for the current patient
     private float GetNewBlinkCd()
     {
-        return currentPatient.IsInfected ? 
-               Random.Range(infectedBlinkCd.x, infectedBlinkCd.y) : 
-               Random.Range(humanBlinkCd.x, humanBlinkCd.y);
+        // return currentPatient.IsInfected ? 
+        //        Random.Range(infectedBlinkCd.x, infectedBlinkCd.y) : 
+        //        Random.Range(humanBlinkCd.x, humanBlinkCd.y);
+
+        return Mathf.Lerp(
+                currentPatient.BlinkCd.x,
+                currentPatient.BlinkCd.y,
+                Mathf.InverseLerp(
+                    currentPatient.BlinkCdSampler.keys.First().value,
+                    currentPatient.BlinkCdSampler.keys.First().value,
+                    currentPatient.BlinkCdSampler.Evaluate(
+                        Random.Range(
+                            currentPatient.BlinkCdSampler.keys.First().time, 
+                            currentPatient.BlinkCdSampler.keys.Last().time))));
     }
     
     /// Get a new twitch cooldown for the current patient, if it will twitch
     private float GetNewTwitchCd()
     {
-        return Random.Range(infectedTwitchCd.x, infectedTwitchCd.y);
+        return Mathf.Lerp(
+            currentPatient.TwitchCd.x,
+            currentPatient.TwitchCd.y,
+            Mathf.InverseLerp(
+                currentPatient.TwitchCdSampler.keys.First().value,
+                currentPatient.TwitchCdSampler.keys.First().value,
+                currentPatient.TwitchCdSampler.Evaluate(
+                    Random.Range(
+                        currentPatient.TwitchCdSampler.keys.First().time, 
+                        currentPatient.TwitchCdSampler.keys.Last().time))));
     }
     
     // Place ID cards in the scene at the start of the level

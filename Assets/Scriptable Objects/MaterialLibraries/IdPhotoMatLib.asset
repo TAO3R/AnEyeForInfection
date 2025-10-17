@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8edce59708323914b86a003ec9b68d66, type: 3}
+  m_Name: IdPhotoMatLib
+  m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: 9b28382a3b430e34ca90d49c56075798, type: 2}
+  - {fileID: 2100000, guid: ce72a121aee6bbd408feeba84150149b, type: 2}
+  - {fileID: 2100000, guid: b8cd532936d8b5a41aea11be723e1d56, type: 2}
+  - {fileID: 2100000, guid: 3439c5136b130fe459f1712d52b0d054, type: 2}
+  - {fileID: 2100000, guid: 853a537e72b39f84e95b98300b205393, type: 2}
+  - {fileID: 2100000, guid: 9f15885d03f60fa469e26a3c83d50653, type: 2}
+  - {fileID: 2100000, guid: f8c3b2e8ee6c14149ab05b99ea0c7240, type: 2}
+  - {fileID: 2100000, guid: bf82693d791b1c44bbca954f96ace750, type: 2}
+  - {fileID: 2100000, guid: 6e022ceb373e56e4e8156dd02be06485, type: 2}
