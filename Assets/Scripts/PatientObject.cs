@@ -25,11 +25,13 @@ public enum EyeColor
 public enum SkinColor
 {
     NotAssigned,
-    Color1,
-    Color2,
-    Color3,
-    Color4,
-    Color5
+    Acne,
+    Brown,
+    Dark,
+    Pale,
+    Scar,
+    Spot,
+    Default
 }
 
 [CreateAssetMenu(fileName = "PatientObject", menuName = "Scriptable Objects/PatientObject")]
@@ -65,10 +67,16 @@ public class PatientObject : ScriptableObject
     
     [Tooltip("Eye color of this eye")]
     [SerializeField] private EyeColor eyeColorType;
+    
+    [SerializeField] private bool willSaccade;
+
+    [SerializeField] private bool willAgitate;
 
     [Tooltip("Whether the eye will track tools when they are picked up")]
     [SerializeField] private bool willTrackTool;
-    
+
+    [SerializeField] private bool lookAtCameraWhileIdling;
+
     
     
     [Header("Dilate")]
@@ -79,6 +87,8 @@ public class PatientObject : ScriptableObject
 
 
     [Header("Blink")]
+    
+    [SerializeField] private bool willBlink;
     
     [Tooltip("The lower and upper bounds of cooldowns between two blinks")]
     [SerializeField] private Vector2 blinkCd;
@@ -108,7 +118,7 @@ public class PatientObject : ScriptableObject
     // Patient
     public bool IsInfected => isInfected;
     public Material PatientIdPhoto => patientIdPhoto;
-    public SkinColor SkinColorType => skinColorType == SkinColor.NotAssigned ? SkinColor.Color1 : skinColorType;
+    public SkinColor SkinColorType => skinColorType == SkinColor.NotAssigned ? SkinColor.Default : skinColorType;
     public int PeopleKilled => peopleKilled;
     public string EntryText => entryText;
     public string InfectedText => infectedText;
@@ -118,13 +128,17 @@ public class PatientObject : ScriptableObject
     // Eyeball
     public Bloodshot BloodshotType => bloodshotType == Bloodshot.NotAssigned ? Bloodshot.NoBloodshot : bloodshotType;
     public EyeColor ColorType => eyeColorType == EyeColor.NotAssigned ? EyeColor.Black : eyeColorType;
+    public bool WillSaccade => willSaccade;
+    public bool WillAgitate => willAgitate;
     public bool WillTrackTool => willTrackTool;
+    public bool LookAtCameraWhileIdling => lookAtCameraWhileIdling;
     
     // Dilate
     // Only won't dilate if the patient is infected and set as cannot dilate
     public bool WillDilate => (!isInfected || willDilate);
     
     // Blink
+    public bool WillBlink => willBlink;
     public Vector2 BlinkCd => blinkCd == Vector2.zero ? 
         (isInfected ? new Vector2(5, 8) : new Vector2(7, 10)) :
         blinkCd;

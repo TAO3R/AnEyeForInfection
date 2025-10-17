@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInfected: 1
   patientIdPhoto: {fileID: 2100000, guid: 6e022ceb373e56e4e8156dd02be06485, type: 2}
-  skinColorType: 0
+  skinColorType: 5
   peopleKilled: 114514
   entryText: temp entry text
   infectedText: temp infected text
@@ -22,8 +22,12 @@ MonoBehaviour:
   voice: {fileID: 8300000, guid: eb8e28740f8b52641bae1a65017611b5, type: 3}
   bloodshotType: 5
   eyeColorType: 5
+  willSaccade: 0
+  willAgitate: 0
   willTrackTool: 0
-  willDilate: 1
+  lookAtCameraWhileIdling: 1
+  willDilate: 0
+  willBlink: 0
   blinkCd: {x: 0.5, y: 5}
   blinkCdSampler:
     serializedVersion: 2

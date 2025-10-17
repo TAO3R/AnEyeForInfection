@@ -104,6 +104,7 @@ public class Eyeball : MonoBehaviour
     private Quaternion _eyeballTargetRot;
     private float _nextMicroTime;
     private float _nextCorrectionTime;
+    [SerializeField] private Transform camTrans;
     
     #endregion
     
@@ -293,6 +294,23 @@ public class Eyeball : MonoBehaviour
     
     private void HandleEyeballIdling()
     {
+        if (LevelManager.Instance.CurrentPatient.LookAtCameraWhileIdling)
+        {
+            // Look at camera
+            Vector3 offset = camTrans.position - eyeballTrans.position;
+            float x = Mathf.Clamp(
+                Mathf.Atan(offset.y / offset.z) / (2 * Mathf.PI) * 360f,
+                xAxisRotInterval.x,
+                xAxisRotInterval.y);
+            float y = Mathf.Clamp(
+                Mathf.Atan(offset.x / offset.z) / (2 * Mathf.PI) * 360f,
+                yAxisRotInterval.x,
+                yAxisRotInterval.y);
+            _eyeballTargetRot = Quaternion.Euler(x, y, 0);
+
+            return;
+        }
+        
         // Micro jitter
         if (Time.time >= _nextMicroTime)
         {
@@ -303,19 +321,22 @@ public class Eyeball : MonoBehaviour
             
             ScheduleMicro();
         }
-        
-        // Corrective saccade
-        if (Time.time >= _nextCorrectionTime)
+
+        if (LevelManager.Instance.CurrentPatient.WillSaccade)
         {
-            // Off-base
-            float x = Random.Range(-correctionRange, correctionRange);
-            float y = Random.Range(-correctionRange, correctionRange);
-            _eyeballTargetRot = _eyeballBaseRot * Quaternion.Euler(x, y, 0);
+            // Corrective saccade
+            if (Time.time >= _nextCorrectionTime)
+            {
+                // Off-base
+                float x = Random.Range(-correctionRange, correctionRange);
+                float y = Random.Range(-correctionRange, correctionRange);
+                _eyeballTargetRot = _eyeballBaseRot * Quaternion.Euler(x, y, 0);
             
-            // Immediately return to base
-            Invoke(nameof(ReturnToBase), 1f);
+                // Immediately return to base
+                Invoke(nameof(ReturnToBase), 1f);
             
-            ScheduleCorrection();
+                ScheduleCorrection();
+            }
         }
     }
     
@@ -343,6 +364,12 @@ public class Eyeball : MonoBehaviour
 
     private void HandleEyeballAgitated()
     {
+        if (!LevelManager.Instance.CurrentPatient.WillAgitate)
+        {
+            HandleEyeballIdling();
+            return;
+        }
+        
         // Initialization
         if (_eyeballDynamicBaseRot == Quaternion.identity)
         {

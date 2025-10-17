@@ -335,7 +335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patientList:
-  - {fileID: 11400000, guid: f9e718539675cb54a98220a3692df14e, type: 2}
+  - {fileID: 11400000, guid: b5ff00a143d781744a34a612f61f7d7d, type: 2}
   - {fileID: 11400000, guid: 0436aa11a95477f4c89405783905fd98, type: 2}
   - {fileID: 11400000, guid: c9f2c4b21c379d24b85288517a6a33f3, type: 2}
   sequenceDirector: {fileID: 772313065}
@@ -369,10 +369,12 @@ MonoBehaviour:
   - {fileID: 2100000, guid: fd20cb4f2a339e24d9291118bb9508e9, type: 2}
   irisRenderer: {fileID: 1358384031}
   skinMaterials:
-  - {fileID: 2100000, guid: 0e3742e116559684596b9c8c5b6889f0, type: 2}
-  - {fileID: 2100000, guid: 0e3742e116559684596b9c8c5b6889f0, type: 2}
-  - {fileID: 2100000, guid: 0e3742e116559684596b9c8c5b6889f0, type: 2}
-  - {fileID: 2100000, guid: 0e3742e116559684596b9c8c5b6889f0, type: 2}
+  - {fileID: 2100000, guid: ebc0e73b5d902ad469db46efdf3cd88c, type: 2}
+  - {fileID: 2100000, guid: e91d8574fdc1b2c48b58f83f771be693, type: 2}
+  - {fileID: 2100000, guid: 739473bdccb269d41ab4bbc94ab4da9b, type: 2}
+  - {fileID: 2100000, guid: a9247176fb50a2d47ab4e82b57cbd1e6, type: 2}
+  - {fileID: 2100000, guid: c82e53c14632d5648b4512a35a00b3c1, type: 2}
+  - {fileID: 2100000, guid: 0efa92a5bba7fd442ab9afe1ebf7c632, type: 2}
   - {fileID: 2100000, guid: 0e3742e116559684596b9c8c5b6889f0, type: 2}
   skinRenderer: {fileID: 1944875103}
   eyeballScript: {fileID: 917949998}
@@ -2496,6 +2498,7 @@ MonoBehaviour:
   eyeballTrans: {fileID: 765404023}
   xAxisRotInterval: {x: -13, y: 13}
   yAxisRotInterval: {x: -25, y: 21}
+  camTrans: {fileID: 1591344098}
   skinnedMeshRenderer: {fileID: 1944875103}
   bsWeights:
   - 0

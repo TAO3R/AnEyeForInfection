@@ -223,7 +223,10 @@ public class LevelManager : MonoBehaviour
             twitchCd = GetNewTwitchCd();
         }
 
-        blinkCd -= Time.deltaTime;
+        if (currentPatient.WillBlink)
+        {
+            blinkCd -= Time.deltaTime;
+        }
 
         if (currentPatient.TwitchDegree != EyeTwitchDegree.None)
         {
