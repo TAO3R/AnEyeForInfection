@@ -24,7 +24,7 @@ public class Drip : MonoBehaviour
         {
             Debug.Log("[Drip] : Triggering eye dilating animation.");
             
-            if (LevelManager.Instance.currentEyeball.WillDilate)
+            if (LevelManager.Instance.CurrentPatient.WillDilate)
             {
                 LevelManager.Instance.pupilAnim.SetBool(Dilate, true);
             }

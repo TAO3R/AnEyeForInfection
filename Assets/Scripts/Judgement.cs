@@ -182,7 +182,7 @@ public class Judgement : MonoBehaviour
 
         //StartCoroutine(WaitToTransition());
         LevelManager.Instance.PatientTransition();
-        LevelManager.Instance.spotlightGO.SetActive(true);
+        LevelManager.Instance.spotlightGo.SetActive(true);
     }
 
     private IEnumerator WaitToTransition()

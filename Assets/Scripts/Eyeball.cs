@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Diagnostics;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Video;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
@@ -83,6 +82,10 @@ public class Eyeball : MonoBehaviour
     [SerializeField] private Vector2 microInterval;
     [SerializeField] private Vector2 correctionInterval;
     
+    // Tracking
+    [SerializeField] private Transform eyeballTrackTarget;
+    [SerializeField] private float trackSpeed;
+    
     // Agitated
     [SerializeField] private float agitatedMicroRange;                      // tiny jitter (degrees)
     [SerializeField] private float agitatedCorrectionRange;                 // occasional correction
@@ -94,12 +97,14 @@ public class Eyeball : MonoBehaviour
     private float _nextBaseResetTime;
     
     // Shared
-    public EyeballState currentEyeballState;
+    [SerializeField] private EyeballState currentEyeballState;
     [SerializeField] private Transform eyeballTrans;
+    [SerializeField] private Vector2 xAxisRotInterval, yAxisRotInterval;
     private Quaternion _eyeballBaseRot;
     private Quaternion _eyeballTargetRot;
     private float _nextMicroTime;
     private float _nextCorrectionTime;
+    [SerializeField] private Transform camTrans;
     
     #endregion
     
@@ -125,7 +130,7 @@ public class Eyeball : MonoBehaviour
 
     [SerializeField] private GameObject eyeNeutral;
 
-    public bool canBlinkOrTwitch;
+    private bool canBlinkOrTwitch;
     
     
     #endregion
@@ -153,6 +158,7 @@ public class Eyeball : MonoBehaviour
         _eyeballTargetRot = _eyeballBaseRot;
         ScheduleMicro();
         ScheduleCorrection();
+        eyeballTrackTarget = null;
         
         // BlendShape
         Mesh mesh = skinnedMeshRenderer.sharedMesh;
@@ -288,6 +294,23 @@ public class Eyeball : MonoBehaviour
     
     private void HandleEyeballIdling()
     {
+        if (LevelManager.Instance.CurrentPatient.LookAtCameraWhileIdling)
+        {
+            // Look at camera
+            Vector3 offset = camTrans.position - eyeballTrans.position;
+            float x = Mathf.Clamp(
+                Mathf.Atan(offset.y / offset.z) / (2 * Mathf.PI) * 360f,
+                xAxisRotInterval.x,
+                xAxisRotInterval.y);
+            float y = Mathf.Clamp(
+                Mathf.Atan(offset.x / offset.z) / (2 * Mathf.PI) * 360f,
+                yAxisRotInterval.x,
+                yAxisRotInterval.y);
+            _eyeballTargetRot = Quaternion.Euler(x, y, 0);
+
+            return;
+        }
+        
         // Micro jitter
         if (Time.time >= _nextMicroTime)
         {
@@ -298,30 +321,55 @@ public class Eyeball : MonoBehaviour
             
             ScheduleMicro();
         }
-        
-        // Corrective saccade
-        if (Time.time >= _nextCorrectionTime)
+
+        if (LevelManager.Instance.CurrentPatient.WillSaccade)
         {
-            // Off-base
-            float x = Random.Range(-correctionRange, correctionRange);
-            float y = Random.Range(-correctionRange, correctionRange);
-            _eyeballTargetRot = _eyeballBaseRot * Quaternion.Euler(x, y, 0);
+            // Corrective saccade
+            if (Time.time >= _nextCorrectionTime)
+            {
+                // Off-base
+                float x = Random.Range(-correctionRange, correctionRange);
+                float y = Random.Range(-correctionRange, correctionRange);
+                _eyeballTargetRot = _eyeballBaseRot * Quaternion.Euler(x, y, 0);
             
-            // Immediately return to base
-            Invoke(nameof(ReturnToBase), 1f);
+                // Immediately return to base
+                Invoke(nameof(ReturnToBase), 1f);
             
-            ScheduleCorrection();
+                ScheduleCorrection();
+            }
         }
     }
     
     private void HandleEyeballTracking()
     {
-        // Looking at the object while the rotation being clamped
-        
+        // Make the eyeball look at the direction of the object, with clamped value
+        if (!eyeballTrackTarget || !LevelManager.Instance.CurrentPatient.WillTrackTool)
+        {
+            HandleEyeballIdling();
+        }
+        else
+        {
+            Vector3 offset = eyeballTrackTarget.position - eyeballTrans.position;
+            float x = Mathf.Clamp(
+                Mathf.Atan(offset.y / offset.z) / (2 * Mathf.PI) * 360f,
+                xAxisRotInterval.x,
+                xAxisRotInterval.y);
+            float y = Mathf.Clamp(
+                Mathf.Atan(offset.x / offset.z) / (2 * Mathf.PI) * 360f,
+                yAxisRotInterval.x,
+                yAxisRotInterval.y);
+            _eyeballTargetRot = Quaternion.Euler(x, y, 0);
+        }
     }
 
     private void HandleEyeballAgitated()
     {
+        if (!LevelManager.Instance.CurrentPatient.WillAgitate)
+        {
+            HandleEyeballIdling();
+            return;
+        }
+        
         // Initialization
         if (_eyeballDynamicBaseRot == Quaternion.identity)
         {
@@ -401,12 +449,33 @@ public class Eyeball : MonoBehaviour
     /// </param>
     public void SetEyeballState(EyeballState newState)
     {
+        Debug.Log("Changing eyeball state to: " + newState);
         currentEyeballState = newState;
+    }
+
+    public void SetEyeballCanBlinkOrTwitch(bool can)
+    {
+        canBlinkOrTwitch = can;
+    }
+
+    public void SetEyeballTrackingTargetTrans(Transform targetTrans)
+    {
+        eyeballTrackTarget = targetTrans;
     }
 
     private float GetSaccadeSpeed(EyeballState state)
     {
-        return state == EyeballState.Agitated ? agitatedSaccadeSpeed : saccadeSpeed;
+        switch (state)
+        {
+            case EyeballState.Idling:
+                return saccadeSpeed;
+            case EyeballState.Tracking:
+                return trackSpeed;
+            case EyeballState.Agitated:
+                return agitatedSaccadeSpeed;
+            default:
+                return saccadeSpeed;
+        }
     }
     
     /// <summary>
@@ -423,10 +492,10 @@ public class Eyeball : MonoBehaviour
          float y = NormalizeEulerAngle(eyeballTrans.localEulerAngles.y);
          
          // Up Down Left Right => bsWeights[3-6]
-         bsWeights[(int)BlendShapes.Up] = MapClamped(x, 0f, -13f, 0f, 100f);
-         bsWeights[(int)BlendShapes.Down] = MapClamped(x, 0f, 13f, 0f, 100f);
-         bsWeights[(int)BlendShapes.Left] = MapClamped(y, 0f, 21f, 0f, 100f);
-         bsWeights[(int)BlendShapes.Right] = MapClamped(y, 0f, -25f, 0f, 100f);
+         bsWeights[(int)BlendShapes.Up] = MapClamped(x, 0f, xAxisRotInterval.x, 0f, 100f);
+         bsWeights[(int)BlendShapes.Down] = MapClamped(x, 0f, xAxisRotInterval.y, 0f, 100f);
+         bsWeights[(int)BlendShapes.Left] = MapClamped(y, 0f, yAxisRotInterval.y, 0f, 100f);
+         bsWeights[(int)BlendShapes.Right] = MapClamped(y, 0f, yAxisRotInterval.x, 0f, 100f);
     }
 
     private float NormalizeEulerAngle(float angle)

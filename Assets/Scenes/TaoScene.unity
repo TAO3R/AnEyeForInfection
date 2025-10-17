@@ -289,6 +289,7 @@ MonoBehaviour:
   catchUpSpeed: 5
   currentSpeculumState: 0
   movingTowardsEye: 0
+  eyeTrackingTrans: {fileID: 1939041921}
 --- !u!1 &138836898
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,7 +335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patientList:
-  - {fileID: 11400000, guid: f9e718539675cb54a98220a3692df14e, type: 2}
+  - {fileID: 11400000, guid: b5ff00a143d781744a34a612f61f7d7d, type: 2}
   - {fileID: 11400000, guid: 0436aa11a95477f4c89405783905fd98, type: 2}
   - {fileID: 11400000, guid: c9f2c4b21c379d24b85288517a6a33f3, type: 2}
   sequenceDirector: {fileID: 772313065}
@@ -349,9 +350,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4ca82f9b1b3bcf04b814cc1e00d73087, type: 2}
   - {fileID: 11400000, guid: 33b629b14325b6447a229f667bc4dece, type: 2}
   judgement: {fileID: 1368349237}
-  lightsGO: {fileID: 2047049791}
-  eyeGO: {fileID: 917949994}
-  spotlightGO: {fileID: 1643203782}
+  lightsGo: {fileID: 2047049791}
+  eyeGo: {fileID: 917949994}
+  spotlightGo: {fileID: 1643203782}
   eyeballMaterials:
   - {fileID: 2100000, guid: 48629c4739159ba458b189d3f30edfa0, type: 2}
   - {fileID: 2100000, guid: ef3f8fab63a8ca5408dfbeb03169954d, type: 2}
@@ -367,11 +368,17 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 0a3c0c9a39d01eb4ca6faa6e1f8c619a, type: 2}
   - {fileID: 2100000, guid: fd20cb4f2a339e24d9291118bb9508e9, type: 2}
   irisRenderer: {fileID: 1358384031}
+  skinMaterials:
+  - {fileID: 2100000, guid: ebc0e73b5d902ad469db46efdf3cd88c, type: 2}
+  - {fileID: 2100000, guid: e91d8574fdc1b2c48b58f83f771be693, type: 2}
+  - {fileID: 2100000, guid: 739473bdccb269d41ab4bbc94ab4da9b, type: 2}
+  - {fileID: 2100000, guid: a9247176fb50a2d47ab4e82b57cbd1e6, type: 2}
+  - {fileID: 2100000, guid: c82e53c14632d5648b4512a35a00b3c1, type: 2}
+  - {fileID: 2100000, guid: 0efa92a5bba7fd442ab9afe1ebf7c632, type: 2}
+  - {fileID: 2100000, guid: 0e3742e116559684596b9c8c5b6889f0, type: 2}
+  skinRenderer: {fileID: 1944875103}
   eyeballScript: {fileID: 917949998}
   pupilAnim: {fileID: 1960410790}
-  humanBlinkCd: {x: 7, y: 10}
-  infectedBlinkCd: {x: 5, y: 8}
-  infectedTwitchCd: {x: 4, y: 7}
   idCardRotationCenter: {fileID: 449731147}
   idCardPrefab: {fileID: 5167261891178487315, guid: 92110900492dfa24d863c8d71fd1b4b7, type: 3}
   maxRotationZ: 15
@@ -387,8 +394,6 @@ MonoBehaviour:
   waitToChangePatient: 1.5
   patientSwapSFX: {fileID: 8300000, guid: 79b88f90bade7be4386a68ed97662005, type: 3}
   currentPatient: {fileID: 0}
-  currentEyeball: {fileID: 0}
-  currentEyeIsLeft: 1
   blinkCd: 0
   twitchCd: 0
   currentIDCardOnTrayTempLocalPos: {x: 0, y: 0, z: 0}
@@ -2451,10 +2456,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3.7819176
+  m_Radius: 3.703518
   m_Height: 11.695041
   m_Direction: 0
-  m_Center: {x: 0.111793995, y: -0.48444462, z: 1.916543}
+  m_Center: {x: 0.111793995, y: -2.0053873, z: 1.9165435}
 --- !u!114 &917949998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2481,6 +2486,8 @@ MonoBehaviour:
   saccadeSpeed: 60
   microInterval: {x: 0.1, y: 0.3}
   correctionInterval: {x: 3, y: 6}
+  eyeballTrackTarget: {fileID: 0}
+  trackSpeed: 30
   agitatedMicroRange: 0.25
   agitatedCorrectionRange: 11
   agitatedSaccadeSpeed: 300
@@ -2489,6 +2496,9 @@ MonoBehaviour:
   baseRotResetInterval: {x: 4, y: 8}
   currentEyeballState: 0
   eyeballTrans: {fileID: 765404023}
+  xAxisRotInterval: {x: -13, y: 13}
+  yAxisRotInterval: {x: -25, y: 21}
+  camTrans: {fileID: 1591344098}
   skinnedMeshRenderer: {fileID: 1944875103}
   bsWeights:
   - 0
@@ -2504,7 +2514,6 @@ MonoBehaviour:
   mediumTwitchClip: {fileID: 1827226128182048838, guid: 5caf9bb2e5d857d409aac00fdc666881, type: 3}
   largeTwitchClip: {fileID: 1827226128182048838, guid: 20a11d35530d3ba45b157e3083edeb97, type: 3}
   eyeNeutral: {fileID: 1668507168}
-  canBlinkOrTwitch: 0
 --- !u!95 &917949999
 Animator:
   serializedVersion: 7
@@ -2513,7 +2522,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 917949994}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 0}
   m_CullingMode: 0
@@ -3236,7 +3245,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 727585afd5d3a7f4c9af6a5f533481e9, type: 3}
   judgedInfected: 0
   endOfDay: {fileID: 2140843633}
-  spotlightGo: {fileID: 0}
+  spotlightGo: {fileID: 1643203782}
   pupilAnim: {fileID: 1960410790}
 --- !u!1 &1463943514
 GameObject:
@@ -5099,6 +5108,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5415834834503672826, guid: dbc63edc2a509b54a81ff02003f2d947, type: 3}
   m_PrefabInstance: {fileID: 1939041919}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1939041921 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1994704658989583904, guid: dbc63edc2a509b54a81ff02003f2d947, type: 3}
+  m_PrefabInstance: {fileID: 1939041919}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &1939041923 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 481781462346161155, guid: dbc63edc2a509b54a81ff02003f2d947, type: 3}
@@ -5268,6 +5282,8 @@ MonoBehaviour:
   drip: {fileID: 4516711086685474339, guid: 244fe454dc3c9104cb12d20b2b695cd7, type: 3}
   dropperTip: {fileID: 1215993596}
   dropperPickUpClip: {fileID: 7400000, guid: 7a055a7bd6f3b2c449b51856cbcffd3a, type: 2}
+  eyeballScript: {fileID: 917949998}
+  speculumScript: {fileID: 57689021}
 --- !u!95 &2002613213
 Animator:
   serializedVersion: 7
@@ -5742,7 +5758,7 @@ MonoBehaviour:
   showDuration: 4
   fadeDuration: 1
   nextScene: Build_1
-  judgement: {fileID: 0}
+  judgement: {fileID: 1368349237}
 --- !u!114 &2140843634
 MonoBehaviour:
   m_ObjectHideFlags: 0
