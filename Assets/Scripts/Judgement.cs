@@ -135,6 +135,9 @@ public class Judgement : MonoBehaviour
             if (!LevelManager.Instance.CurrentPatient.IsInfected)
             {
                 endOfDay.pplTurnedAway++;
+                
+                // Judged innocent as infected
+                endOfDay.hasFalseNegative = true;
             }
         
             // Play infected sound effect

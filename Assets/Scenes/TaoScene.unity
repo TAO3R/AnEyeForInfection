@@ -335,7 +335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patientList:
-  - {fileID: 11400000, guid: b5ff00a143d781744a34a612f61f7d7d, type: 2}
+  - {fileID: 11400000, guid: f9e718539675cb54a98220a3692df14e, type: 2}
   - {fileID: 11400000, guid: 0436aa11a95477f4c89405783905fd98, type: 2}
   - {fileID: 11400000, guid: c9f2c4b21c379d24b85288517a6a33f3, type: 2}
   sequenceDirector: {fileID: 772313065}
@@ -5752,6 +5752,10 @@ MonoBehaviour:
   popupCanvasGroup: {fileID: 1623475226}
   dayHeaderText: {fileID: 1527729155}
   statsText: {fileID: 1909228904}
+  panelImage: {fileID: 1623475224}
+  correctBackground: {fileID: 21300000, guid: 0891951084f085442b0775e339342656, type: 3}
+  mistakeBackground: {fileID: 21300000, guid: 18779b8d9ef6cdd4a8934915f52de30d, type: 3}
+  hasFalseNegative: 0
   dayNumber: 1
   population: 404
   pplTurnedAway: 0

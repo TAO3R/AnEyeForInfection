@@ -14,6 +14,14 @@ public class EndOfDayPopup : MonoBehaviour
     [SerializeField] private CanvasGroup popupCanvasGroup;
     [SerializeField] private TMP_Text dayHeaderText;   // <- NEW
     [SerializeField] private TMP_Text statsText;
+    
+    [Tooltip("Background image component for the end-of-day stat screen")]
+    [SerializeField] private Image panelImage;
+    
+    [Tooltip("Actual sprites of the background image")]
+    [SerializeField] private Sprite correctBackground, mistakeBackground;
+
+    public bool hasFalseNegative;
 
     //[SerializeField] private CanvasGroup newspaperCanvasGroup;
 
@@ -44,8 +52,6 @@ public class EndOfDayPopup : MonoBehaviour
             Destroy(this);
         else
             Instance = this;
-
-
     }
 
     private void Start()
@@ -55,6 +61,9 @@ public class EndOfDayPopup : MonoBehaviour
 
         //newspaperCanvasGroup.alpha = 0f;
         //newspaperCanvasGroup.gameObject.SetActive(false);
+        
+        // Have not judged an innocent as infected at the start
+        hasFalseNegative = false;
     }
 
     /// <summary>
@@ -125,6 +134,9 @@ public class EndOfDayPopup : MonoBehaviour
         statsText.text = "Population: " + population + "\n" 
             + "Infected People Accepted: " + judgement.InfectedAccepted + "\n" +
             "Innocent People Rejected: " + pplTurnedAway;
+        
+        // Background image
+        panelImage.sprite = hasFalseNegative ? mistakeBackground : correctBackground;
 
         if (popupRoutine != null)
             StopCoroutine(popupRoutine);
