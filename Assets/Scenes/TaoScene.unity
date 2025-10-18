@@ -3662,7 +3662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   newspaper: {fileID: 2045268741}
-  fadeDuration: 6
+  fadeDuration: 1
 --- !u!4 &1584776637
 Transform:
   m_ObjectHideFlags: 0

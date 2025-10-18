@@ -33,6 +33,8 @@ public class Judgement : MonoBehaviour
     [SerializeField] private GameObject spotlightGo;
 
     [SerializeField] private Animator pupilAnim;
+
+    private Coroutine currentCoroutine;
     
     
 
@@ -144,7 +146,10 @@ public class Judgement : MonoBehaviour
         
             // Play dialogue
             DialogueSystem.Instance.CallWriteText(LevelManager.Instance.CurrentPatient.InfectedText);
-        
+            currentCoroutine = DialogueSystem.Instance.CurrentCoroutine;
+
+            StartCoroutine(WaitAndEndDialogue());
+            
             if (infectedSprite != null)
                 infectedSprite.SetActive(true);
         }
@@ -170,7 +175,6 @@ public class Judgement : MonoBehaviour
                 acceptedSprite.SetActive(true);
         }
         
-        
         pupilAnim.SetBool("Dilate", false);
         hasJudged = true;
         isJudgementHeld = false;
@@ -185,9 +189,17 @@ public class Judgement : MonoBehaviour
         LevelManager.Instance.spotlightGo.SetActive(true);
     }
 
+    private IEnumerator WaitAndEndDialogue()
+    {
+        yield return new WaitForSecondsRealtime(1.5f);
+        
+        // Stop dialogue coroutine
+        StopCoroutine(currentCoroutine);
+    }
+
     private IEnumerator WaitToTransition()
     {
         yield return new WaitForSecondsRealtime(3f);
     }
 
-    }   // End of class
+}   // End of class

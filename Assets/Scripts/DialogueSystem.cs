@@ -29,6 +29,8 @@ public class DialogueSystem : MonoBehaviour
     private AudioSource audioSource;
 
     private Coroutine currentCoroutine;
+    public Coroutine CurrentCoroutine => currentCoroutine;
+
 
     private void Awake()
     {
