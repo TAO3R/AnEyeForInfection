@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SceneReset : MonoBehaviour
 {
     [SerializeField] private Image newspaper;
-    public float fadeDuration = 3f;
+    public float fadeDuration;
 
     private void Start()
     {
@@ -38,7 +38,7 @@ public class SceneReset : MonoBehaviour
 
     private IEnumerator FadeOutNewspaper(Image image, float duration)
     {
-        yield return new WaitForSecondsRealtime(6f);
+        yield return new WaitForSecondsRealtime(4);
         
         Color originalColor = image.color;
         float startAlpha = originalColor.a;
