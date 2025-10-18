@@ -204,7 +204,7 @@ public class LevelManager : MonoBehaviour
     {
         if (!currentPatient) { return; }
 
-        if (blinkCd <= 0)
+        if (currentPatient.WillBlink && blinkCd < 0)
         {
             // Trigger blink
             // InputManager.Instance.eyeballAnim.SetTrigger(currentPatient.IsInfected ? "Twitch" : "Blink");
@@ -214,7 +214,7 @@ public class LevelManager : MonoBehaviour
             blinkCd = GetNewBlinkCd();
         }
 
-        if (currentPatient.TwitchDegree != EyeTwitchDegree.None && twitchCd <= 0)
+        if (currentPatient.TwitchDegree != EyeTwitchDegree.None && twitchCd < 0)
         {
             // Trigger twitch
             eyeballScript.InitiateTwitch(currentPatient.TwitchDegree);
@@ -307,31 +307,35 @@ public class LevelManager : MonoBehaviour
         //        Random.Range(infectedBlinkCd.x, infectedBlinkCd.y) : 
         //        Random.Range(humanBlinkCd.x, humanBlinkCd.y);
 
-        return Mathf.Lerp(
-                currentPatient.BlinkCd.x,
-                currentPatient.BlinkCd.y,
-                Mathf.InverseLerp(
-                    currentPatient.BlinkCdSampler.keys.First().value,
-                    currentPatient.BlinkCdSampler.keys.First().value,
-                    currentPatient.BlinkCdSampler.Evaluate(
-                        Random.Range(
-                            currentPatient.BlinkCdSampler.keys.First().time, 
-                            currentPatient.BlinkCdSampler.keys.Last().time))));
+        // return Mathf.Lerp(
+        //         currentPatient.BlinkCd.x,
+        //         currentPatient.BlinkCd.y,
+        //         Mathf.InverseLerp(
+        //             currentPatient.BlinkCdSampler.keys.First().value,
+        //             currentPatient.BlinkCdSampler.keys.First().value,
+        //             currentPatient.BlinkCdSampler.Evaluate(
+        //                 Random.Range(
+        //                     currentPatient.BlinkCdSampler.keys.First().time, 
+        //                     currentPatient.BlinkCdSampler.keys.Last().time))));
+        
+        return Random.Range(currentPatient.BlinkCd.x, currentPatient.BlinkCd.y);
     }
     
     /// Get a new twitch cooldown for the current patient, if it will twitch
     private float GetNewTwitchCd()
     {
-        return Mathf.Lerp(
-            currentPatient.TwitchCd.x,
-            currentPatient.TwitchCd.y,
-            Mathf.InverseLerp(
-                currentPatient.TwitchCdSampler.keys.First().value,
-                currentPatient.TwitchCdSampler.keys.First().value,
-                currentPatient.TwitchCdSampler.Evaluate(
-                    Random.Range(
-                        currentPatient.TwitchCdSampler.keys.First().time, 
-                        currentPatient.TwitchCdSampler.keys.Last().time))));
+        // return Mathf.Lerp(
+        //     currentPatient.TwitchCd.x,
+        //     currentPatient.TwitchCd.y,
+        //     Mathf.InverseLerp(
+        //         currentPatient.TwitchCdSampler.keys.First().value,
+        //         currentPatient.TwitchCdSampler.keys.First().value,
+        //         currentPatient.TwitchCdSampler.Evaluate(
+        //             Random.Range(
+        //                 currentPatient.TwitchCdSampler.keys.First().time, 
+        //                 currentPatient.TwitchCdSampler.keys.Last().time))));
+
+        return Random.Range(currentPatient.TwitchCd.x, currentPatient.TwitchCd.y);
     }
     
     // Place ID cards in the scene at the start of the level
