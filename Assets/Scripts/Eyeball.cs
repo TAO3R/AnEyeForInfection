@@ -472,7 +472,7 @@ public class Eyeball : MonoBehaviour
             case EyeballState.Tracking:
                 return trackSpeed;
             case EyeballState.Agitated:
-                return agitatedSaccadeSpeed;
+                return LevelManager.Instance.CurrentPatient.WillAgitate ? agitatedSaccadeSpeed : saccadeSpeed;
             default:
                 return saccadeSpeed;
         }

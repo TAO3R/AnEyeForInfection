@@ -168,6 +168,10 @@ public class LevelManager : MonoBehaviour
         //    Destroy(this);
         //else
         Instance = this;
+        
+        Debug.Log($"Before Awake: myBool = {patientList[0].WillBlink}, myVector2 = {patientList[0].BlinkCd}");
+        Debug.Log($"Before Awake: myBool = {patientList[1].WillBlink}, myVector2 = {patientList[1].BlinkCd}");
+        Debug.Log($"Before Awake: myBool = {patientList[2].WillBlink}, myVector2 = {patientList[2].BlinkCd}");
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
