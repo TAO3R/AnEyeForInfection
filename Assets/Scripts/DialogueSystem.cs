@@ -29,6 +29,7 @@ public class DialogueSystem : MonoBehaviour
     private AudioSource audioSource;
 
     private Coroutine currentCoroutine;
+    public Coroutine CurrentCoroutine => currentCoroutine;
 
     private void Awake()
     {
@@ -89,7 +90,7 @@ public class DialogueSystem : MonoBehaviour
         // Stop patient voice after text is finished writing
         audioSource.Stop();
 
-        // If this is the infected text, update patients killed
+        // If this is not the infected text, keep on screen
         if (!judgement.judgedInfected)
         {
             // Close textbox after 2.5 seconds
@@ -102,6 +103,17 @@ public class DialogueSystem : MonoBehaviour
 
         // After the dialogue is done typing, play the sequence and start transition
         //LevelManager.Instance.PatientTransition();
+    }
+
+    // Helper Methods for Judgement class
+    public void StopAudio()
+    {
+        audioSource.Stop();
+    }
+
+    public void ResetText()
+    {
+        textbox.text = "";
     }
 
 
