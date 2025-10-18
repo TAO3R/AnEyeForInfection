@@ -189,7 +189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 43b231cb1952aa34cbe0d142556dd319, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1492,7 +1492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 43b231cb1952aa34cbe0d142556dd319, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5512,7 +5512,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 85296d93d623c7d4bb9a01cd94b83162, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8af70b66b609d4e45b55a0feb32e453b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5756,7 +5756,7 @@ MonoBehaviour:
   correctBackground: {fileID: 21300000, guid: 0891951084f085442b0775e339342656, type: 3}
   mistakeBackground: {fileID: 21300000, guid: 18779b8d9ef6cdd4a8934915f52de30d, type: 3}
   hasFalseNegative: 0
-  dayNumber: 1
+  dayNumber: 2
   population: 404
   pplTurnedAway: 0
   showDuration: 4

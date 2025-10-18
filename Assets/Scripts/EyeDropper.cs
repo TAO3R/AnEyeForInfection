@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using UnityEditor.EditorTools;
 using UnityEngine;
 
 public enum EyeDropperStates
