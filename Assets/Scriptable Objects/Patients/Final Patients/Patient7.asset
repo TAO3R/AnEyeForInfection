@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: Patient7
   m_EditorClassIdentifier: 
   isInfected: 0
-  twitchDegree: 0
-  leftEye: {fileID: 11400000, guid: 0a055877accdfa44a8ea69c7aa288b70, type: 2}
-  rightEye: {fileID: 0}
   patientIdPhoto: {fileID: 2100000, guid: f8c3b2e8ee6c14149ab05b99ea0c7240, type: 2}
+  skinColorType: 1
   peopleKilled: 0
   entryText: "You okay? You don\u2019t look so good."
   infectedText: "That can\u2019t be right, can it? Check one more time, if you don\u2019t
@@ -24,6 +22,26 @@ MonoBehaviour:
   acceptedText: "Maybe you should take a break or something, you\u2019re sweating
     like crazy."
   voice: {fileID: 8300000, guid: c30418edaa3ebca41ab2f1d41566770b, type: 3}
-  willDilate: 0
-  bloodshotType: 0
-  colorType: 0
+  bloodshotType: 1
+  eyeColorType: 3
+  willSaccade: 0
+  willAgitate: 1
+  willTrackTool: 0
+  lookAtCameraWhileIdling: 0
+  willDilate: 1
+  willBlink: 1
+  blinkCd: {x: 0.5, y: 10}
+  blinkCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchCd: {x: 10, y: 20}
+  twitchCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchDegree: 0

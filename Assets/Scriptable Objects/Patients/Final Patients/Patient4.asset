@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: Patient4
   m_EditorClassIdentifier: 
   isInfected: 0
-  twitchDegree: 0
-  leftEye: {fileID: 11400000, guid: 39cf55b2eebcca849b239b80daf73465, type: 2}
-  rightEye: {fileID: 0}
   patientIdPhoto: {fileID: 2100000, guid: 3439c5136b130fe459f1712d52b0d054, type: 2}
+  skinColorType: 3
   peopleKilled: 0
   entryText: "Doesn\u2019t matter what you say. Out there it\u2019s just death, hunger,
     and more death. I\u2019d rather you finish me off. "
@@ -25,6 +23,26 @@ MonoBehaviour:
   acceptedText: "So I live another day? Same thing either way. The world\u2019s still
     rotting, and so am I."
   voice: {fileID: 8300000, guid: b4f200a0475c03c4d9a5b11a897c1b4d, type: 3}
-  willDilate: 0
-  bloodshotType: 0
-  colorType: 0
+  bloodshotType: 1
+  eyeColorType: 1
+  willSaccade: 0
+  willAgitate: 0
+  willTrackTool: 0
+  lookAtCameraWhileIdling: 0
+  willDilate: 1
+  willBlink: 1
+  blinkCd: {x: 0.5, y: 10}
+  blinkCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchCd: {x: 5, y: 20}
+  twitchCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchDegree: 0

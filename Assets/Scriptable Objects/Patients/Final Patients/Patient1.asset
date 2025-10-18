@@ -14,28 +14,77 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInfected: 0
   patientIdPhoto: {fileID: 2100000, guid: 9b28382a3b430e34ca90d49c56075798, type: 2}
-  skinColorType: 0
+  skinColorType: 1
   peopleKilled: 0
   entryText: "Hey there, this your first day? Just be gentle, I\u2019ve been through
     hell to get here."
   infectedText: Huh?
   acceptedText: "Maybe I\u2019ll see you around. Take it easy."
   voice: {fileID: 8300000, guid: e38bab9eea040ff48b913160dc934759, type: 3}
-  bloodshotType: 0
-  eyeColorType: 0
+  bloodshotType: 1
+  eyeColorType: 4
+  willSaccade: 1
+  willAgitate: 0
   willTrackTool: 1
+  lookAtCameraWhileIdling: 0
   willDilate: 1
-  blinkCd: {x: 0, y: 0}
+  willBlink: 1
+  blinkCd: {x: 0.5, y: 10}
   blinkCdSampler:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.53603065
+      value: 0.53603065
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  twitchCd: {x: 0, y: 0}
+  twitchCd: {x: 5, y: 20}
   twitchCdSampler:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: Patient8
   m_EditorClassIdentifier: 
   isInfected: 1
-  twitchDegree: 0
-  leftEye: {fileID: 11400000, guid: 7404b6435fe8a764d8825d6e8a2be865, type: 2}
-  rightEye: {fileID: 0}
   patientIdPhoto: {fileID: 2100000, guid: bf82693d791b1c44bbca954f96ace750, type: 2}
-  peopleKilled: 139
+  skinColorType: 1
+  peopleKilled: 61
   entryText: "Thanks for testing me. If you don\u2019t mind making it quick, my husband
     and kids are waiting for me on the other side, so I\u2019d like to go meet them
     soon."
@@ -25,6 +23,26 @@ MonoBehaviour:
     I\u2019m not one of them, I\u2019m not. HAROLD! THEY'RE GOING TO KILL ME! HA"
   acceptedText: "Thank goodness. I\u2019m coming, Harold!"
   voice: {fileID: 8300000, guid: 850396a9a1e6b7442b109e0efdca9806, type: 3}
+  bloodshotType: 1
+  eyeColorType: 3
+  willSaccade: 1
+  willAgitate: 0
+  willTrackTool: 1
+  lookAtCameraWhileIdling: 0
   willDilate: 0
-  bloodshotType: 0
-  colorType: 0
+  willBlink: 1
+  blinkCd: {x: 0.5, y: 15}
+  blinkCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchCd: {x: 5, y: 10}
+  twitchCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchDegree: 3

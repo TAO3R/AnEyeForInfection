@@ -14,13 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInfected: 1
   patientIdPhoto: {fileID: 2100000, guid: b8cd532936d8b5a41aea11be723e1d56, type: 2}
-  peopleKilled: 0
+  skinColorType: 2
+  peopleKilled: 66
   entryText: "Um\u2026 hi\u2026 Sorry, I\u2019m kind of nervous\u2026 will this be
     painful? Will it take long? Sorry, I\u2019m asking too many questions\u2026 sorry\u2026"
   infectedText: "Huh? What\u2019s over this way? Oh\u2026 that's\u2026 I\u2019m sorry."
   acceptedText: "Sorry\u2026 ah, I mean, thank you! Thank you\u2026"
   voice: {fileID: 8300000, guid: a2c334f3950531345886ea5bcfaede15, type: 3}
-  bloodshotType: 4
+  bloodshotType: 6
+  eyeColorType: 3
+  willSaccade: 1
+  willAgitate: 0
+  willTrackTool: 1
+  lookAtCameraWhileIdling: 0
   willDilate: 1
-  twitchDegree: 0
-  colorType: 3
+  willBlink: 1
+  blinkCd: {x: 0.5, y: 7}
+  blinkCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchCd: {x: 7, y: 20}
+  twitchCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchDegree: 1
