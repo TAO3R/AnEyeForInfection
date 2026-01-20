@@ -39,20 +39,20 @@ Material:
     m_Floats:
     - _AberrationAmount: 0
     - _BarrelK: 0.04
-    - _BloomAmount: 0.11
+    - _BloomAmount: 0.014
     - _CAAmount: 0.705
     - _DistortAmount: 0
     - _GlassJitterAmp: 0.025
     - _GlassJitterFreq: 18.49
     - _MaskAmount: 0.525
-    - _NoiseAmount: 0.15
-    - _PixelateAmount: 0.065
+    - _NoiseAmount: 0.103
+    - _PixelateAmount: 0.025
     - _ReflectionStrength: 0.128
     - _RoundedAmount: 0.725
     - _ScanDensity: 900
     - _ScanIntensity: 1
-    - _ScanlineFrequency: 0.39
-    - _ScanlineIntensity: 0.0222
+    - _ScanlineFrequency: 0.3
+    - _ScanlineIntensity: 0.01
     - _ScanlineSpeed: 10.1
     - _Vignette: 2
     - _VignetteAmount: 0

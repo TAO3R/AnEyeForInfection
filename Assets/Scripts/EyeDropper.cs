@@ -64,6 +64,7 @@ public class EyeDropper : MonoBehaviour
         }
     }
 
+    
     #region Input Action Callbacks
     
     /// <summary>
@@ -79,6 +80,20 @@ public class EyeDropper : MonoBehaviour
             // Eyeball
             eyeballScript.SetEyeballState(EyeballState.Tracking);
             eyeballScript.SetEyeballTrackingTargetTrans(dropperTip);
+            
+            // Patient voice
+            if (!LevelManager.Instance.ToolPickupFlag)
+            {
+                if (LevelManager.Instance.CurrentPatient.ToolPickUpText != "")
+                {
+                    // Trigger patient tool pick up voice and text
+                    DialogueSystem.Instance.CallWriteText(LevelManager.Instance.CurrentPatient.ToolPickUpText, DialogueInterruptLevel.InteractiveDialogue);
+                
+                }
+            
+                // Set Flag
+                LevelManager.Instance.SetToolPickUpFlag();
+            }
         }
     }
     
@@ -134,7 +149,6 @@ public class EyeDropper : MonoBehaviour
     #endregion
     
     
-    
     #region Animation Events
 
     public void SetEyeDropperMoving()
@@ -180,7 +194,6 @@ public class EyeDropper : MonoBehaviour
     }
     
     #endregion
-    
     
     
     private IEnumerator PlayAnimClip(GameObject go, AnimationClip clip)

@@ -16,8 +16,17 @@ public class Stamp : MonoBehaviour
         
     }
 
-    public void AnimEventHelper()
+    public void OnStampOnCard()
     {
         judgementScript.StampHelper();
+    }
+
+    public void OnStampFinished()
+    {
+        LevelManager.Instance.StartIDSlide();
+
+        //StartCoroutine(WaitToTransition());
+        LevelManager.Instance.PatientTransition();
+        // LevelManager.Instance.spotlightGo.SetActive(true);
     }
 }

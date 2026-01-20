@@ -64,6 +64,8 @@ public class SceneReset : MonoBehaviour
             originalColor.g,
             originalColor.b,
             0f);
+        
+        LevelManager.Instance.SetLevelState(LevelStates.Judging);
     }
     
 }   // End of class

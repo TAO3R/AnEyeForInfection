@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -8,90 +10,73 @@ using Random = UnityEngine.Random;
 
 public enum LevelStates
 {
-    PreGame,
-    Playing,
-    AfterGame
+    Entering,
+    Judging,
+    Transitioning,
+    Exiting
+}
+
+[System.Serializable]
+public class PatientPool
+{
+    public List<PatientObject> pool;
 }
 
 public class LevelManager : MonoBehaviour
 {
     // Singleton
     public static LevelManager Instance { get; private set; }
-    
-    [Header("Patient")]
-    
-    [Tooltip("Assign in the inspector")] [SerializeField]
-    private List<PatientObject> patientList;
 
+    private LevelStates currentState;
+    public LevelStates CurrentState => currentState;
+    
+    // Patients
+    // [SerializeField] private List<PatientPool> patientPools;
+    [SerializeField] private int firstPatientIndex;
+    [SerializeField] private int patientNumber;
+    private List<PatientObject> patientList;
+    
+    // Eyeball
+    [SerializeField] private Eyeball eyeballScript;
+    [SerializeField] private Animator eyeballAnim;
+    public Animator pupilAnim;
+    
+    // Tools
+    [SerializeField] private Speculum speculumScript;
+    [SerializeField] private EyeDropper dropperScript;
+    
+    // Voices
+    [SerializeField] private bool toolPickUpFlag, stampPickUpFlag, idleFlag;
+    public bool ToolPickupFlag => toolPickUpFlag;
+    public bool StampPickUpFlag => stampPickUpFlag;
+    [SerializeField] private float idleCounter;
+    
+    // Cutscene
     [Tooltip("Assign in the inspector")]
     [SerializeField]
     private PlayableDirector sequenceDirector;
-
+    
+    // UI
     [SerializeField]
     private EndOfDayPopup endOfDay;
-
+    
     // Tray Materials
     [SerializeField] private List<Material> materials;
     [SerializeField] private MeshRenderer trayRenderer;
 
     [Tooltip("0 - safe, 1 - infected")]
     [SerializeField] private List<TimelineAsset> cutscenes;
-
+    
     [SerializeField] private Judgement judgement;
-
+    
     [SerializeField] private GameObject lightsGo;
     [SerializeField] private GameObject eyeGo;
-
+    
     public GameObject spotlightGo;
-
-
+    [SerializeField] private bool spotLightOffWhenZoomed = true;
+    
+    
     //private float textDelay;
-
-
-
-    #region Eyeball Variables
-
-    [Header("Eyeball")]
-    
-    [Tooltip("Assign materials in an order that their indices match int value of their enum type")] [SerializeField]
-    private List<Material> eyeballMaterials;
-    
-    [Tooltip("Assign in the inspector")] [SerializeField]
-    private Renderer eyeballRenderer;  // Assigned in the inspector
-    
-    [Tooltip("Assign materials in an order that their indices match int value of their enum type")] [SerializeField]
-    private List<Material> irisMaterials;
-    
-    [Tooltip("Assign in the inspector")] [SerializeField]
-    private Renderer irisRenderer; // Assign in the inspector
-    
-    [Tooltip("Assign materials in an order that their indices match int value of their enum type")] [SerializeField]
-    private List<Material> skinMaterials;
-    
-    [Tooltip("Assign in the inspector")] [SerializeField]
-    private Renderer skinRenderer; // Assign in the inspector
-
-
-    [SerializeField] private Eyeball eyeballScript;
-
-    public Animator pupilAnim;
-    
-    #endregion
-    
-    
-    
-    #region Twitch Variables
-
-    // [Header("Twitch")]
-    // [Tooltip("Assign in the inspector")] [SerializeField]
-    // private Vector2 humanBlinkCd;
-    // [Tooltip("Assign in the inspector")] [SerializeField]
-    // private Vector2 infectedBlinkCd;
-    // [Tooltip("Assign in the inspector")] [SerializeField]
-    // private Vector2 infectedTwitchCd;
-    
-    #endregion
-
     
     
     #region ID Card & Stamp Variables
@@ -136,17 +121,18 @@ public class LevelManager : MonoBehaviour
     
     #endregion
     
-    #region Debug Variables
     
+    #region Debug Variables
+
     [Header("Debugging")]
+    
+    private int currentPatientIndex;
     
     [SerializeField]
     private PatientObject currentPatient;
     public PatientObject CurrentPatient => currentPatient;
-    // public EyeObject currentEyeball;
-    // public bool currentEyeIsLeft;
     
-    // Keep track of the time remaining for the current patient to twitch
+    // Keep track of the time remaining for the current patient to blink & twitch
     [SerializeField]
     private float blinkCd, twitchCd;
 
@@ -158,20 +144,47 @@ public class LevelManager : MonoBehaviour
     private Coroutine _currentIDZoomCoroutine;
     private Coroutine _currentStampZoomCoroutine;
     
+    public TMP_Text patientInfoDebugText;
+    public TMP_Text countdownDebugText;
+
+    [Header("Cutscene")]
+    [SerializeField] private float trayMaterialChangeDelay;
+    
     #endregion
+    
     
     #region Mono
     
     private void Awake()
     {
-        //if (Instance != null && Instance != this)
-        //    Destroy(this);
-        //else
+        // Singleton
         Instance = this;
         
-        Debug.Log($"Before Awake: myBool = {patientList[0].WillBlink}, myVector2 = {patientList[0].BlinkCd}");
-        Debug.Log($"Before Awake: myBool = {patientList[1].WillBlink}, myVector2 = {patientList[1].BlinkCd}");
-        Debug.Log($"Before Awake: myBool = {patientList[2].WillBlink}, myVector2 = {patientList[2].BlinkCd}");
+        // Populate patient list
+        // Random.InitState((int)System.DateTime.Now.Ticks);
+        patientList = new List<PatientObject>();
+        for (int i = 0; i < patientNumber; i++)
+        {
+            patientList.Add(PatientPoolManager.Instance.IsUsingGroup1 ?
+                PatientPoolManager.Instance.PatientPools[0].pool[firstPatientIndex + i]
+                :
+                PatientPoolManager.Instance.PatientPools[1].pool[firstPatientIndex + i]);
+        }
+        
+        // State
+        currentState = LevelStates.Entering;
+    }
+
+    private void OnEnable()
+    {
+        sequenceDirector.played += OnPlayablePlayed;
+        sequenceDirector.stopped += OnPlayableStopped;
+    }
+
+    private void OnDisable()
+    {
+        sequenceDirector.played -= OnPlayablePlayed;
+        sequenceDirector.stopped -= OnPlayableStopped;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -179,7 +192,7 @@ public class LevelManager : MonoBehaviour
     {
         Debug.Log("LevelManager.Instance: " + LevelManager.Instance);
         Debug.Log("LevelManager.Instance.CurrentPatient: " + LevelManager.Instance.CurrentPatient);
-
+        
         // Seed the random number generator
         Random.InitState((int)System.DateTime.Now.Ticks);
         
@@ -187,10 +200,12 @@ public class LevelManager : MonoBehaviour
         SetUpIDCards();
         
         // Get the first patient in the list
+        currentPatientIndex = -1;
         GetPatient();
         
         // Cooldowns
         GetNewBlinkCd();
+        
         if (currentPatient.TwitchDegree != EyeTwitchDegree.None)
         {
             GetNewTwitchCd();
@@ -207,6 +222,17 @@ public class LevelManager : MonoBehaviour
     void Update()
     {
         if (!currentPatient) { return; }
+        
+        // Cooldowns
+        if (currentPatient.WillBlink)
+        {
+            blinkCd -= Time.deltaTime;
+        }
+
+        if (currentPatient.TwitchDegree != EyeTwitchDegree.None)
+        {
+            twitchCd -= Time.deltaTime;
+        }
 
         if (currentPatient.WillBlink && blinkCd < 0)
         {
@@ -227,31 +253,44 @@ public class LevelManager : MonoBehaviour
             twitchCd = GetNewTwitchCd();
         }
 
-        if (currentPatient.WillBlink)
-        {
-            blinkCd -= Time.deltaTime;
-        }
-
-        if (currentPatient.TwitchDegree != EyeTwitchDegree.None)
-        {
-            twitchCd -= Time.deltaTime;
-        }
+        countdownDebugText.text = $"Blink cooldown: {blinkCd}\n" +
+                                  $"Twitch cooldown: {twitchCd}";
 
         //Debug.Log("ENTRY TEXT IS: " + CurrentPatient.EntryText);
+
+        if (!idleFlag && currentState == LevelStates.Judging)
+        {
+            idleCounter -= Time.deltaTime;
+
+            if (idleCounter <= 0f)
+            {
+                idleFlag = true;
+                
+                if (currentPatient.IdleText != "")
+                {
+                    // Trigger text box display and voice
+                    DialogueSystem.Instance.CallWriteText(currentPatient.IdleText, DialogueInterruptLevel.InteractiveDialogue);
+                    
+                }
+            }
+        }
 
     }
     
     #endregion
+    
     
     #region Methods
     
     // Get the next patient in the list
     private void GetPatient()
     {
-        if (patientList.Count == 0)
+        currentPatientIndex++;
+        
+        if (currentPatientIndex == patientList.Count)
         {
             // Implement end game logic
-            //endOfDay.dayNumber++;
+            // endOfDay.dayNumber++;
             // StartCoroutine(WaitToShowBlood());
             endOfDay.ShowPopup();
             lightsGo.SetActive(false);
@@ -259,14 +298,25 @@ public class LevelManager : MonoBehaviour
             Debug.LogError("The patient list is empty!");
             return;
         }
-        judgement.judgedInfected = false;
 
         // Get the first in the list and remove it from the list
-        currentPatient = patientList[0];
-        patientList.Remove(currentPatient);
+        currentPatient = patientList[currentPatientIndex];
         
-        // Get the left eyeball of the current patient
-        // currentEyeball = currentPatient.LeftEye;
+        // Reset flags
+        judgement.judgedInfected = false;
+        ClearToolPickUpFlag();
+        ClearStampPickUpFlag();
+        ClearIdleFlag();
+        
+        if (currentPatient.IdleDuration <= 0f)
+        {
+            idleFlag = true;
+        }
+        else
+        {
+            idleCounter = currentPatient.IdleDuration;
+            Debug.Log($"$[Idle Text]: idle counter set to {idleCounter}");
+        }
         
         // Update visuals
         UpdateEyeball();
@@ -275,8 +325,24 @@ public class LevelManager : MonoBehaviour
         // StartCoroutine(WaitToShowBlood());
         StartCoroutine(WaitToWriteText());
         
+        spotlightGo.SetActive(true);
+        
         // Debug
         Debug.Log("Current eye twitch degree: " + currentPatient.TwitchDegree);
+
+        patientInfoDebugText.text = $"Current patient info:\n" + 
+                                    $"\tIsInfected: {currentPatient.IsInfected}\n" +
+                                    $"\tSkinColor: {currentPatient.SkinColorType}\n" +
+                                    $"\tInnocentPoints: {currentPatient.InnocentPoints}\n" +
+                                    $"\tBloodshotType: {currentPatient.BloodshotType}\n" +
+                                    $"\tEyeColorType: {currentPatient.ColorType}\n" +
+                                    $"\tWillSaccade: {currentPatient.WillSaccade}\n" +
+                                    $"\tWillAgitate: {currentPatient.WillAgitate}\n" +
+                                    $"\tWillTrackTool: {currentPatient.WillTrackTool}\n" +
+                                    $"\tLookAtCameraWhileIdling: {currentPatient.LookAtCameraWhileIdling}\n" +
+                                    $"\tWillDilate: {currentPatient.WillDilate}\n" +
+                                    $"\tWillBlink: {currentPatient.WillBlink}\n" +
+                                    $"\tTwitchDegree: {currentPatient.TwitchDegree}";
     }
 
     // Update Eyeball visuals to the current eyeball
@@ -284,43 +350,24 @@ public class LevelManager : MonoBehaviour
     {
         Debug.Log("[LevelManager]: updating eyeball");
         
-        eyeballRenderer.material = eyeballMaterials[(int)currentPatient.BloodshotType - 1];
-        irisRenderer.material = irisMaterials[(int)currentPatient.ColorType - 1];
-        skinRenderer.material = skinMaterials[(int)currentPatient.SkinColorType - 1];
+        eyeballScript.UpdateEyeballAppearance(currentPatient);
 
         pupilAnim.SetBool("Dilate", false);
     }
 
-    // Sets the current eyeball to the opposite of what it is currently looking at
-    // public void SetCurrentEyeball()
-    // {
-    //     if (currentEyeIsLeft)
-    //     {
-    //         currentEyeball = currentPatient.LeftEye;
-    //     }
-    //     else
-    //     {
-    //         currentEyeball = currentPatient.RightEye;
-    //     }
-    // }
-
     /// Get a new blink cooldown for the current patient
     private float GetNewBlinkCd()
     {
-        // return currentPatient.IsInfected ? 
-        //        Random.Range(infectedBlinkCd.x, infectedBlinkCd.y) : 
-        //        Random.Range(humanBlinkCd.x, humanBlinkCd.y);
-
-        // return Mathf.Lerp(
-        //         currentPatient.BlinkCd.x,
-        //         currentPatient.BlinkCd.y,
-        //         Mathf.InverseLerp(
-        //             currentPatient.BlinkCdSampler.keys.First().value,
-        //             currentPatient.BlinkCdSampler.keys.First().value,
-        //             currentPatient.BlinkCdSampler.Evaluate(
-        //                 Random.Range(
-        //                     currentPatient.BlinkCdSampler.keys.First().time, 
-        //                     currentPatient.BlinkCdSampler.keys.Last().time))));
+        return Mathf.Lerp(
+                currentPatient.BlinkCd.x,
+                currentPatient.BlinkCd.y,
+                Mathf.InverseLerp(
+                    currentPatient.BlinkCdSampler.keys.First().value,
+                    currentPatient.BlinkCdSampler.keys.Last().value,
+                    currentPatient.BlinkCdSampler.Evaluate(
+                        Random.Range(
+                            currentPatient.BlinkCdSampler.keys.First().time, 
+                            currentPatient.BlinkCdSampler.keys.Last().time))));
         
         return Random.Range(currentPatient.BlinkCd.x, currentPatient.BlinkCd.y);
     }
@@ -328,18 +375,48 @@ public class LevelManager : MonoBehaviour
     /// Get a new twitch cooldown for the current patient, if it will twitch
     private float GetNewTwitchCd()
     {
-        // return Mathf.Lerp(
-        //     currentPatient.TwitchCd.x,
-        //     currentPatient.TwitchCd.y,
-        //     Mathf.InverseLerp(
-        //         currentPatient.TwitchCdSampler.keys.First().value,
-        //         currentPatient.TwitchCdSampler.keys.First().value,
-        //         currentPatient.TwitchCdSampler.Evaluate(
-        //             Random.Range(
-        //                 currentPatient.TwitchCdSampler.keys.First().time, 
-        //                 currentPatient.TwitchCdSampler.keys.Last().time))));
+        return Mathf.Lerp(
+            currentPatient.TwitchCd.x,
+            currentPatient.TwitchCd.y,
+            Mathf.InverseLerp(
+                currentPatient.TwitchCdSampler.keys.First().value,
+                currentPatient.TwitchCdSampler.keys.Last().value,
+                currentPatient.TwitchCdSampler.Evaluate(
+                    Random.Range(
+                        currentPatient.TwitchCdSampler.keys.First().time, 
+                        currentPatient.TwitchCdSampler.keys.Last().time))));
 
         return Random.Range(currentPatient.TwitchCd.x, currentPatient.TwitchCd.y);
+    }
+
+    public void SetToolPickUpFlag()
+    {
+        toolPickUpFlag = true;
+    }
+
+    public void ClearToolPickUpFlag()
+    {
+        toolPickUpFlag = false;
+    }
+
+    public void SetStampPickUpFlag()
+    {
+        stampPickUpFlag = true;
+    }
+
+    public void ClearStampPickUpFlag()
+    {
+        stampPickUpFlag = false;
+    }
+
+    public void SetIdleFlag()
+    {
+        idleFlag = true;
+    }
+
+    public void ClearIdleFlag()
+    {
+        idleFlag = false;
     }
     
     // Place ID cards in the scene at the start of the level
@@ -399,7 +476,8 @@ public class LevelManager : MonoBehaviour
         stampAnim.SetBool("PutDown", false);
         
         // Spot light off
-        spotlightGo.SetActive(false);
+        if (spotLightOffWhenZoomed)
+            spotlightGo.SetActive(false);
     }
     
     /// <summary>
@@ -419,7 +497,6 @@ public class LevelManager : MonoBehaviour
         isZoomedIn = false;
         stampAnim.SetBool("PickedUp", false);
         stampAnim.SetBool("PutDown", true);
-        spotlightGo.SetActive(true);
     }
     
     /// <summary>
@@ -533,6 +610,11 @@ public class LevelManager : MonoBehaviour
         movingTrans.localRotation = targetRot;
         stampIsMoving = false;
         _currentIDZoomCoroutine = null;
+
+        if (!isZoomedIn)
+        {
+            spotlightGo.SetActive(true);
+        }
     }
 
     private IEnumerator LerpToDestroyID(
@@ -587,17 +669,17 @@ public class LevelManager : MonoBehaviour
     private IEnumerator WaitToShowBlood()
     {
         Debug.Log("calling waittoshowblood");
-        yield return new WaitForSecondsRealtime(1.8f);
+        yield return new WaitForSecondsRealtime(trayMaterialChangeDelay);
 
         trayRenderer.material = materials[judgement.PatientsKilled];
-
+        
         GetPatient();
     }
 
     private IEnumerator WaitToWriteText()
     {
         yield return new WaitForSecondsRealtime(4f);
-        DialogueSystem.Instance.CallWriteText(currentPatient.EntryText);
+        DialogueSystem.Instance.CallWriteText(currentPatient.EntryText, DialogueInterruptLevel.IntroOutroDialogue);
     }
 
     public void StartIDSlide()
@@ -609,6 +691,33 @@ public class LevelManager : MonoBehaviour
             idDestroyTrans.localPosition,
             idDestroyTrans.localRotation,
             zoomDuration));
+    }
+
+    private void OnPlayablePlayed(PlayableDirector director)
+    {
+        // State
+        currentState = LevelStates.Transitioning;
+        
+        // Reset tools
+        speculumScript.OnPutDown();
+        dropperScript.OnPutDown();
+        
+        // Eyeball
+        eyeballAnim.enabled = true;
+    }
+
+    private void OnPlayableStopped(PlayableDirector director)
+    {
+        // State
+        currentState = currentPatientIndex >= patientList.Count ? LevelStates.Exiting : LevelStates.Judging;
+        
+        // Eyeball
+        eyeballAnim.enabled = false;
+    }
+
+    public void SetLevelState(LevelStates state)
+    {
+        currentState = state;
     }
     
     #endregion

@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f7dddebbdcde64d985725b32c102f9, type: 3}
+  m_Name: D3_Patient_3-1
+  m_EditorClassIdentifier: 
+  isInfected: 1
+  patientIdPhoto: {fileID: 2100000, guid: 6e022ceb373e56e4e8156dd02be06485, type: 2}
+  skinColorType: 4
+  innocentPoints: 1
+  entryText: "Innocent or Infected. You\u2019ve found yourself in quite the powerful
+    position. The one who decides who lives and who dies. The judge."
+  infectedText: "Keep choosing based on that silly little paper. Ever wonder who
+    wrote it? Just make sure you put the bodies somewhere you can\u2019t see us.                                       "
+  acceptedText: People die no matter which way you choose. The lesser of two evils,
+    or just two roads with the same destination?
+  voice: {fileID: 8300000, guid: 61734409d5dc08d47b3c1146d42fd439, type: 3}
+  bloodshotType: 2
+  eyeColorType: 5
+  willSaccade: 0
+  willAgitate: 0
+  willTrackTool: 0
+  lookAtCameraWhileIdling: 1
+  willDilate: 0
+  willBlink: 0
+  blinkCd: {x: 0, y: 0}
+  blinkCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchCd: {x: 0, y: 0}
+  twitchCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchDegree: 0

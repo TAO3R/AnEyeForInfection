@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f7dddebbdcde64d985725b32c102f9, type: 3}
+  m_Name: D3_Patient_1-2
+  m_EditorClassIdentifier: 
+  isInfected: 1
+  patientIdPhoto: {fileID: 2100000, guid: a7840ca45cd6fa14698e01243cae71dc, type: 2}
+  skinColorType: 7
+  innocentPoints: 3
+  entryText: "My dad started making weird noises and told me to come here without
+    him. I\u2019m worried about him\u2026"
+  infectedText: 'Can I bring my teddy?                                                                                                                       '
+  acceptedText: Can you send someone to go look for my dad?
+  voice: {fileID: 8300000, guid: 40fade44f44f6df4a8093a612a4e1bff, type: 3}
+  bloodshotType: 1
+  eyeColorType: 1
+  willSaccade: 0
+  willAgitate: 1
+  willTrackTool: 1
+  lookAtCameraWhileIdling: 0
+  willDilate: 1
+  willBlink: 0
+  blinkCd: {x: 0, y: 0}
+  blinkCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchCd: {x: 7, y: 10}
+  twitchCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchDegree: 2

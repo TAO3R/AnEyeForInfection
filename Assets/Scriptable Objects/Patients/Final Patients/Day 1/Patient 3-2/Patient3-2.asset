@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f7dddebbdcde64d985725b32c102f9, type: 3}
+  m_Name: Patient3-2
+  m_EditorClassIdentifier: 
+  isInfected: 1
+  patientIdPhoto: {fileID: 2100000, guid: 06ae4f1e93b63534a942b83fffc78f70, type: 2}
+  skinColorType: 7
+  innocentPoints: -2
+  entryText: "Unhand me! I\u2019m worth more than your entire bloodline combined!"
+  infectedText: 'Excuse me? How dare you! How DARE YOU                                                              '
+  acceptedText: "You\u2019ll be out of a job, soon, you incompetent nitwit."
+  toolPickUpText: 
+  stampPickUpText: 
+  idleText: "Listen, if I\u2019m sick, you need to make sure she makes it through,
+    understand?"
+  idleDuration: 10
+  voice: {fileID: 8300000, guid: 1a1fbdf89214d164385be9a7c28fcc4c, type: 3}
+  bloodshotType: 2
+  eyeColorType: 1
+  willSaccade: 1
+  willAgitate: 1
+  willTrackTool: 1
+  lookAtCameraWhileIdling: 0
+  willDilate: 1
+  willBlink: 1
+  blinkCd: {x: 0.5, y: 10}
+  blinkCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchCd: {x: 0, y: 0}
+  twitchCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchDegree: 0

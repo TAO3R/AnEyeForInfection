@@ -114,6 +114,20 @@ public class Speculum : MonoBehaviour
         
         // Sound
         SoundManager.Instance.CallSoundPrefabFunction(speculumSounds[0], speculumGo);
+        
+        // Patient voice
+        if (!LevelManager.Instance.ToolPickupFlag)
+        {
+            if (LevelManager.Instance.CurrentPatient.ToolPickUpText != "")
+            {
+                // Trigger patient tool pick up voice and text
+                DialogueSystem.Instance.CallWriteText(LevelManager.Instance.CurrentPatient.ToolPickUpText, DialogueInterruptLevel.InteractiveDialogue);
+                
+            }
+            
+            // Set Flag
+            LevelManager.Instance.SetToolPickUpFlag();
+        }
     }
     
     /// <summary>

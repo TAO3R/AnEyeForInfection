@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
+using TMPro;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
@@ -38,9 +38,34 @@ public class Eyeball : MonoBehaviour
         Right
     }
     
-    #region Breath
     
+    #region Appearance
+    [Header("Appearance")]
+    
+    [Tooltip("Assign materials in an order that their indices match int value of their enum type")] [SerializeField]
+    private List<Material> eyeballMaterials;
+    
+    [Tooltip("Assign in the inspector")] [SerializeField]
+    private Renderer eyeballRenderer;  // Assigned in the inspector
+    
+    [Tooltip("Assign materials in an order that their indices match int value of their enum type")] [SerializeField]
+    private List<Material> irisMaterials;
+    
+    [Tooltip("Assign in the inspector")] [SerializeField]
+    private Renderer irisRenderer; // Assign in the inspector
+    
+    [Tooltip("Assign materials in an order that their indices match int value of their enum type")] [SerializeField]
+    private List<Material> skinMaterials;
+    
+    [Tooltip("Assign in the inspector")] [SerializeField]
+    private Renderer skinRenderer; // Assign in the inspector
+    
+    #endregion
+    
+    
+    #region Breath
     [Header("Breath")]
+    
     [Tooltip("Translation range (in meters) along Y-axis")] [SerializeField]
     private float amplitude;
     
@@ -70,9 +95,7 @@ public class Eyeball : MonoBehaviour
     #endregion
     
     
-    
     #region Rotation
-    
     [Header("Rotate")]
     
     // Idling
@@ -109,9 +132,7 @@ public class Eyeball : MonoBehaviour
     #endregion
     
     
-    
     #region BlendShape
-    
     [Header("BlendShape")]
     
     [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
@@ -131,14 +152,20 @@ public class Eyeball : MonoBehaviour
     [SerializeField] private GameObject eyeNeutral;
 
     private bool canBlinkOrTwitch;
+
+    public TMP_Text blendshapeDebugText;
     
     
     #endregion
     
     
-    
     #region Mono
     
+    private void Awake()
+    {
+        blendshapeDebugText.text = "";
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -190,8 +217,18 @@ public class Eyeball : MonoBehaviour
     }
     
     #endregion
-
     
+    
+    #region Appearance Method(s)
+
+    public void UpdateEyeballAppearance(PatientObject patient)
+    {
+        eyeballRenderer.material = eyeballMaterials[(int)patient.BloodshotType - 1];
+        irisRenderer.material = irisMaterials[(int)patient.ColorType - 1];
+        skinRenderer.material = skinMaterials[(int)patient.SkinColorType - 1];
+    }
+    
+    #endregion
     
     #region Breath Methods
     
@@ -261,7 +298,6 @@ public class Eyeball : MonoBehaviour
     }
     
     #endregion
-    
     
     
     #region Eyeball Rotation Methods
@@ -449,7 +485,7 @@ public class Eyeball : MonoBehaviour
     /// </param>
     public void SetEyeballState(EyeballState newState)
     {
-        Debug.Log("Changing eyeball state to: " + newState);
+        // Debug.Log("Changing eyeball state to: " + newState);
         currentEyeballState = newState;
     }
 
@@ -515,7 +551,6 @@ public class Eyeball : MonoBehaviour
     }
     
     #endregion
-
     
     
     #region BlendShape
@@ -529,6 +564,19 @@ public class Eyeball : MonoBehaviour
         {
             skinnedMeshRenderer.SetBlendShapeWeight(i, bsWeights[i]);
         }
+
+        // UpdateBlendshapeDebugText();
+    }
+
+    private void UpdateBlendshapeDebugText()
+    {
+        blendshapeDebugText.text = $"blink: {skinnedMeshRenderer.GetBlendShapeWeight(0)}\n" +
+                                   $"twitch: {skinnedMeshRenderer.GetBlendShapeWeight(1)}\n" +
+                                   $"open: {skinnedMeshRenderer.GetBlendShapeWeight(2)}\n" +
+                                   $"up: {skinnedMeshRenderer.GetBlendShapeWeight(3)}\n" +
+                                   $"down: {skinnedMeshRenderer.GetBlendShapeWeight(4)}\n" +
+                                   $"left: {skinnedMeshRenderer.GetBlendShapeWeight(5)}\n" +
+                                   $"right: {skinnedMeshRenderer.GetBlendShapeWeight(6)}\n";
     }
 
     public void InitiateBlink()
@@ -593,6 +641,7 @@ public class Eyeball : MonoBehaviour
         while (timeElapsed <= clip.length)
         {
             clip.SampleAnimation(go, timeElapsed);
+            
             timeElapsed += Time.deltaTime;
             yield return null;
         }

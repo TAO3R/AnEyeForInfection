@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,7 +26,6 @@ public class InputManager : MonoBehaviour
     [SerializeField] private InputActionReference judgementAction;
     [SerializeField] private InputActionReference acceptedAction;
     [SerializeField] private InputActionReference infectedAction;
-    
     
     
     #region Mono
@@ -109,75 +110,105 @@ public class InputManager : MonoBehaviour
         infectedAction.action.Disable();
     }
 
+    private void Update()
+    {
+        // Debug.Log($"Current speculum button value: {speculumPickup.action.ReadValue<float>()}");
+    }
+
     #endregion
-    
     
     
     #region Input Action Callbacks
     
+    
     // Pick up the dropper when button is released and it is on the tray
     private void OnDropperPickedUp(InputAction.CallbackContext ctx)
     {
+        Debug.Log("[InputManager]: Try pick up the dropper.");
+        if (LevelManager.Instance.CurrentState != LevelStates.Judging) return;
+        
         dropperScript.OnPickedUp();
     }
 
-    // Place the dropper back on the tray when button is pressed and it is picked up
+    // Place the dropper back on the tray when button is pressed, and it is picked up
     private void OnDropperPutDown(InputAction.CallbackContext ctx)
     {
+        if (LevelManager.Instance.CurrentState != LevelStates.Judging) return;
+        
         dropperScript.OnPutDown();
     }
 
     // Drop a drip while the dropper being picked up
     private void OnDropperDrip(InputAction.CallbackContext ctx)
     {
+        if (LevelManager.Instance.CurrentState != LevelStates.Judging) return;
+        
         dropperScript.OnDrip();
     }
     
     // Pick up the speculum
     private void OnSpeculumPickedUp(InputAction.CallbackContext ctx)
     {
-       speculumScript.OnPickedUp();
+        Debug.Log("[InputManager]: Try pick up the speculum.");
+        if (LevelManager.Instance.CurrentState != LevelStates.Judging) return;
+        
+        speculumScript.OnPickedUp();
     }
     
     // Put down the speculum
     private void OnSpeculumPutDown(InputAction.CallbackContext ctx)
     {
+        if (LevelManager.Instance.CurrentState != LevelStates.Judging) return;
+        
         speculumScript.OnPutDown();
     }
     
     // Pull the speculum open
     private void OnSpeculumPullUpStarted(InputAction.CallbackContext ctx)
     {
+        if (LevelManager.Instance.CurrentState != LevelStates.Judging) return;
+        
         speculumScript.OnPullUpStarted();
     }
     
     // Stop pull the speculum open
     private void OnSpeculumPullUpEnded(InputAction.CallbackContext ctx)
     {
+        if (LevelManager.Instance.CurrentState != LevelStates.Judging) return;
+        
         speculumScript.OnPullUpEnded();
     }
     
     // Pick up the stamp
     private void OnStampPickedUp(InputAction.CallbackContext ctx)
     {
+        Debug.Log("[InputManager]: Try pick up the stamp.");
+        if (LevelManager.Instance.CurrentState != LevelStates.Judging) return;
+        
         stampScript.OnJudgementReleased();
     }
     
     // Put down the stamp
     private void OnStampPutDown(InputAction.CallbackContext ctx)
     {
+        if (LevelManager.Instance.CurrentState != LevelStates.Judging) return;
+            
         stampScript.OnJudgementPressed();
     }
     
     // Stamping accepted button
     private void OnStampingAccepted(InputAction.CallbackContext ctx)
     {
+        if (LevelManager.Instance.CurrentState != LevelStates.Judging) return;
+        
         stampScript.OnAccepted();
     }
     
     // Stamping infected button
     private void OnStampingInfected(InputAction.CallbackContext ctx)
     {
+        if (LevelManager.Instance.CurrentState != LevelStates.Judging) return;
+
         stampScript.OnInfected();
     }
 

@@ -35,6 +35,8 @@ public class Judgement : MonoBehaviour
     [SerializeField] private Animator pupilAnim;
 
     private Coroutine currentCoroutine;
+
+    [SerializeField] private float voiceCutoffDelay = 4.15f;
     
     
 
@@ -89,6 +91,20 @@ public class Judgement : MonoBehaviour
         //     Debug.Log("Picking up the stamp");
         //     judgementAnimator.SetTrigger("PickedUp");
         // }
+        
+        // Patient voice
+        if (LevelManager.Instance != null && !LevelManager.Instance.StampPickUpFlag)
+        {
+            if (LevelManager.Instance.CurrentPatient != null &&  LevelManager.Instance.CurrentPatient.StampPickUpText != "")
+            {
+                // Trigger patient stamp pick up voice and text
+                DialogueSystem.Instance.CallWriteText(LevelManager.Instance.CurrentPatient.StampPickUpText, DialogueInterruptLevel.InteractiveDialogue);
+                
+            }
+            
+            // Set Flag
+            LevelManager.Instance.SetStampPickUpFlag();
+        }
     }
     
     /// <summary>
@@ -118,13 +134,12 @@ public class Judgement : MonoBehaviour
         
         judgedInfected = true;
         
-        //Debug.Log("before, value is " + judgedInfected);
-        //judgedInfected = false;
-        //Debug.Log("after, value is " + judgedInfected);
     }
 
     public void StampHelper()
     {
+        LevelManager.Instance.SetIdleFlag();
+        
         // Activate correct sprite and initiate card move
         if (judgedInfected)
         {
@@ -143,12 +158,8 @@ public class Judgement : MonoBehaviour
             // Play infected sound effect
             SoundManager.Instance.CallSoundPrefabFunction(sounds[2], this.gameObject);
         
-            // play blood splatter (could also handle in dialogue system script)
-        
-            // show blood splatter on tray
-        
             // Play dialogue
-            DialogueSystem.Instance.CallWriteText(LevelManager.Instance.CurrentPatient.InfectedText);
+            DialogueSystem.Instance.CallWriteText(LevelManager.Instance.CurrentPatient.InfectedText, DialogueInterruptLevel.IntroOutroDialogue);
             currentCoroutine = DialogueSystem.Instance.CurrentCoroutine;
 
             // Stop Dialogue after 1.75 seconds
@@ -165,16 +176,18 @@ public class Judgement : MonoBehaviour
             // Check if you judged the patient correctly
             if (LevelManager.Instance.CurrentPatient.IsInfected)
             {
-                // Population decreases if wrong
-                endOfDay.population -= LevelManager.Instance.CurrentPatient.PeopleKilled;
+                //endOfDay.population -= LevelManager.Instance.CurrentPatient.PeopleKilled;
                 infectedAccepted++;
             }
+
+            // Add kindness points
+            EndOfDayPopup.kindnessValue += LevelManager.Instance.CurrentPatient.InnocentPoints;
         
             // Play sound effect for accepting patient
             SoundManager.Instance.CallSoundPrefabFunction(sounds[1], this.gameObject);
         
-            // Play dialogue
-            DialogueSystem.Instance.CallWriteText(LevelManager.Instance.CurrentPatient.AcceptedText);
+            // Play IntroOutroDialogue
+            DialogueSystem.Instance.CallWriteText(LevelManager.Instance.CurrentPatient.AcceptedText, DialogueInterruptLevel.IntroOutroDialogue);
         
             if (acceptedSprite != null)
                 acceptedSprite.SetActive(true);
@@ -187,20 +200,15 @@ public class Judgement : MonoBehaviour
         
         // Return to background music
         MusicManager.Instance?.PlayBackgroundMusic();
-        
-        LevelManager.Instance.StartIDSlide();
-
-        //StartCoroutine(WaitToTransition());
-        LevelManager.Instance.PatientTransition();
-        LevelManager.Instance.spotlightGo.SetActive(true);
     }
 
     private IEnumerator WaitAndEndDialogue()
     {
-        yield return new WaitForSecondsRealtime(1.75f);
+        yield return new WaitForSecondsRealtime(voiceCutoffDelay);
 
         // Stop dialogue coroutine
-        StopCoroutine(currentCoroutine);
+        if (currentCoroutine != null)
+            StopCoroutine(currentCoroutine);
 
         // Reset audio and clear textbox
         DialogueSystem.Instance.StopAudio();
@@ -208,4 +216,4 @@ public class Judgement : MonoBehaviour
 
     }
 
-    }   // End of class
+}   // End of class

@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f7dddebbdcde64d985725b32c102f9, type: 3}
+  m_Name: Patient2-2
+  m_EditorClassIdentifier: 
+  isInfected: 0
+  patientIdPhoto: {fileID: 2100000, guid: 20444974dcfdb2e449d3a4f524008b91, type: 2}
+  skinColorType: 7
+  innocentPoints: 0
+  entryText: Have you heard the good word? God has decided to cleanse us! The sinners
+    will die and the rest of us will step into a glorious new day!
+  infectedText: If He has judged me a sinner, I will gladly accept my punishment.
+    O Lord, I accept my punishment!
+  acceptedText: "I can feel His light shining down on me\u2026 Hear me, O God, and
+    save this world from those who spit on your unblemished image!"
+  toolPickUpText: 
+  stampPickUpText: 
+  idleText: "Praise his name\u2026 he will protect me\u2026"
+  idleDuration: 10
+  voice: {fileID: 8300000, guid: 6a79bd50d71e7f1498502efb20f1b418, type: 3}
+  bloodshotType: 1
+  eyeColorType: 4
+  willSaccade: 1
+  willAgitate: 1
+  willTrackTool: 0
+  lookAtCameraWhileIdling: 0
+  willDilate: 1
+  willBlink: 1
+  blinkCd: {x: 0.5, y: 15}
+  blinkCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchCd: {x: 0, y: 0}
+  twitchCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchDegree: 0

@@ -5,6 +5,21 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Jury/JuryMainMenu.unity
+    guid: 1a1ccb28def5eec42bf19d76fe6ae747
+  - enabled: 1
+    path: Assets/Scenes/Jury/JuryDay1Scene.unity
+    guid: 257e45f5b2faeaf4a94a3871abc25597
+  - enabled: 1
+    path: Assets/Scenes/Jury/JuryDay2Scene.unity
+    guid: d8f5e52bc929e0f4db20011f22c51ed8
+  - enabled: 1
+    path: Assets/Scenes/Jury/JuryDay3Scene.unity
+    guid: e292c3dd583495641b192fef0c0ee6e8
+  - enabled: 1
+    path: Assets/Scenes/Jury/JuryEndingScene.unity
+    guid: 37060bf915758ec42a17b02e0b7c5012
   - enabled: 0
     path: Assets/Scenes/TaoScene.unity
     guid: 89396c664f0615c4bac4bd91256e15ad
@@ -38,21 +53,27 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/BuildScenes/EndingScene.unity
     guid: 8b5475d2e18998947b1d8c28042b0aad
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BitBridge/BBMainMenu.unity
     guid: 219274384555a654ebf3aeb6d54bca1a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BitBridge/BBScene1.unity
     guid: d31c9a768c73ac346911d9c5f11b1239
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BitBridge/BBScene2.unity
     guid: 85377f8528c1a88498da843b3a8e377a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BitBridge/BBScene3.unity
     guid: 0a6d5fcc0edd4c147959fc177f69c06c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BitBridge/BBEndingScene.unity
     guid: d46c2f53780cc6b4daa3dd006ec8a4f6
+  - enabled: 1
+    path: Assets/Scenes/Jury/FlagEndingScene.unity
+    guid: 26b3513e4763cf24bbbe2eb96511e311
+  - enabled: 1
+    path: Assets/Scenes/Jury/JessicaFinalScene.unity
+    guid: 1255219797342fe4684dbb1e1d886813
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

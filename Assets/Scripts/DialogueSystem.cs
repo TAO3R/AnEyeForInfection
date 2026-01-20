@@ -1,7 +1,13 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
-using NUnit.Framework;
+
+public enum DialogueInterruptLevel
+{
+    IntroOutroDialogue,
+    InteractiveDialogue,
+    Default
+}
 
 public class DialogueSystem : MonoBehaviour
 {
@@ -31,6 +37,8 @@ public class DialogueSystem : MonoBehaviour
     private Coroutine currentCoroutine;
     public Coroutine CurrentCoroutine => currentCoroutine;
 
+    [SerializeField] private DialogueInterruptLevel currentDialogueInterruptLevel;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -43,19 +51,23 @@ public class DialogueSystem : MonoBehaviour
 
     private void Start()
     {
-        
+        currentDialogueInterruptLevel = DialogueInterruptLevel.Default;
     }
 
     // Public method to call write text function
-    public void CallWriteText(string textToWrite)
+    public void CallWriteText(string textToWrite, DialogueInterruptLevel interruptLevel)
     {
-        StartWriteText(textToWrite);
+        if (currentCoroutine == null || (uint)interruptLevel <= (uint)currentDialogueInterruptLevel)
+        {
+            currentDialogueInterruptLevel = interruptLevel;
+            StartWriteText(textToWrite);
+        }
     }
 
     // Calls coroutine if there is not one running
     private void StartWriteText(string textToWrite)
     {
-        // Stop current coroutine 
+        // Interrupt current coroutine 
         if (currentCoroutine != null)
         {
             StopCoroutine(currentCoroutine);
@@ -103,6 +115,8 @@ public class DialogueSystem : MonoBehaviour
 
         // After the dialogue is done typing, play the sequence and start transition
         //LevelManager.Instance.PatientTransition();
+
+        currentCoroutine = null;
     }
 
     // Helper Methods for Judgement class

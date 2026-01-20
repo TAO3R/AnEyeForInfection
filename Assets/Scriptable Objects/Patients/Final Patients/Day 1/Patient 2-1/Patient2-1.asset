@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f7dddebbdcde64d985725b32c102f9, type: 3}
+  m_Name: Patient2-1
+  m_EditorClassIdentifier: 
+  isInfected: 1
+  patientIdPhoto: {fileID: 2100000, guid: ce72a121aee6bbd408feeba84150149b, type: 2}
+  skinColorType: 7
+  innocentPoints: 0
+  entryText: "Make it quick\u2026 I need to take my medicine\u2026"
+  infectedText: "Ah\u2026 help\u2026 help me                                                                                        "
+  acceptedText: "Thank you\u2026 ugh\u2026"
+  toolPickUpText: 
+  stampPickUpText: 
+  idleText: "It hurts\u2026 It hurts\u2026"
+  idleDuration: 10
+  voice: {fileID: 8300000, guid: 7712610c377cd074f8e05e3ac06d975a, type: 3}
+  bloodshotType: 4
+  eyeColorType: 1
+  willSaccade: 1
+  willAgitate: 1
+  willTrackTool: 0
+  lookAtCameraWhileIdling: 0
+  willDilate: 1
+  willBlink: 1
+  blinkCd: {x: 0.5, y: 10}
+  blinkCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchCd: {x: 3, y: 10}
+  twitchCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchDegree: 2

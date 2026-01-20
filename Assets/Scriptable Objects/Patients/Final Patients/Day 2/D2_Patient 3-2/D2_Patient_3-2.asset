@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f7dddebbdcde64d985725b32c102f9, type: 3}
+  m_Name: D2_Patient_3-2
+  m_EditorClassIdentifier: 
+  isInfected: 0
+  patientIdPhoto: {fileID: 2100000, guid: c88930ac7bf731645a9f1d77fd08d725, type: 2}
+  skinColorType: 7
+  innocentPoints: -3
+  entryText: "I\u2019ll tell you a secret. I\u2019ve got blood on my hands, of those
+    two women who looked at me the wrong way. It felt incredible\u2026"
+  infectedText: 'I hope you enjoy this as much as I did.                                                                                                  '
+  acceptedText: "Excellent! I can\u2019t wait to cause more suffering on the inside."
+  toolPickUpText: 
+  stampPickUpText: 
+  idleText: To kill is art. To die is art. You are an artist. What will be your masterpiece?
+  idleDuration: 11
+  voice: {fileID: 8300000, guid: c6e0d69abe5cf69458f959ac5436ef79, type: 3}
+  bloodshotType: 1
+  eyeColorType: 3
+  willSaccade: 1
+  willAgitate: 1
+  willTrackTool: 1
+  lookAtCameraWhileIdling: 0
+  willDilate: 1
+  willBlink: 1
+  blinkCd: {x: 5, y: 15}
+  blinkCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchCd: {x: 0, y: 0}
+  twitchCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchDegree: 0

@@ -40,77 +40,57 @@ public class PatientObject : ScriptableObject
     #region Variabels
     
     [Header("Patient")]
-    
     [SerializeField] private bool isInfected;
     [SerializeField] private Material patientIdPhoto;
-
     [SerializeField] private SkinColor skinColorType;
-
     // Assigned during runtime
     [System.NonSerialized] public Transform idCard;
-    
-    [Tooltip("The number of people that gets killed if this patient is let in, assign in the inspector")]
-    [SerializeField] private int peopleKilled;
-
-    [Tooltip("The line texts patient will speak when enter the scene, judged for infected, and judged for accepted")] [SerializeField]
+    [Tooltip("The value of kindness points added for judging a patient as innocent.")]
+    [SerializeField] private int innocentPoints;
+    [Tooltip("Line texts patient will speak when enter the scene, judged for infected, and judged for accepted.")] [SerializeField]
     private string entryText, infectedText, acceptedText;
-
-    [Tooltip("Audio clip of the voice of the patient")] [SerializeField]
+    [Tooltip("Line texts patient will speak when a tool is picked up for the first time, stamp is picked up, and after x seconds.")] [SerializeField]
+    private string toolPickUpText, stampPickUpText, idleText;
+    [Tooltip("The amount of seconds it takes for the patient to trigger the idle text.")] [SerializeField]
+    private float idleDuration;
+    [Tooltip("Audio clip of the voice of the patient.")] [SerializeField]
     private AudioClip voice;
     
     
-    
     [Header("Eyeball")]
-    
     [Tooltip("The type of bloodshot this eye has")]
     [SerializeField] private Bloodshot bloodshotType;
-    
     [Tooltip("Eye color of this eye")]
     [SerializeField] private EyeColor eyeColorType;
-    
     [SerializeField] private bool willSaccade;
-
     [SerializeField] private bool willAgitate;
-
     [Tooltip("Whether the eye will track tools when they are picked up")]
     [SerializeField] private bool willTrackTool;
-
     [SerializeField] private bool lookAtCameraWhileIdling;
-
     
     
     [Header("Dilate")]
-   
     [Tooltip("Whether this eye will dilate")]
     [SerializeField] private bool willDilate;
 
-
-
+    
     [Header("Blink")]
-    
     [SerializeField] private bool willBlink;
-    
     [Tooltip("The lower and upper bounds of cooldowns between two blinks")]
     [SerializeField] private Vector2 blinkCd;
-    
     [Tooltip("Used to modify the distribution of blink cd. A curve of y = x will have the range of blink cd being equally sampled")]
     [SerializeField] private AnimationCurve blinkCdSampler;
     
     
-    
     [Header("Twitch")]
-    
     [Tooltip("The lower and upper bounds of cooldowns between two twitches")]
     [SerializeField] private Vector2 twitchCd;
-    
     [Tooltip("Used to modify the distribution of twitch cd. A curve of y = x will have the range of twitch cd being equally sampled")]
     [SerializeField] private AnimationCurve twitchCdSampler;
-    
     [Tooltip("How will the eye twitch")]
     [SerializeField] private EyeTwitchDegree twitchDegree;
     
     #endregion
-    
     
     
     #region Getters
@@ -119,10 +99,14 @@ public class PatientObject : ScriptableObject
     public bool IsInfected => isInfected;
     public Material PatientIdPhoto => patientIdPhoto;
     public SkinColor SkinColorType => skinColorType == SkinColor.NotAssigned ? SkinColor.Default : skinColorType;
-    public int PeopleKilled => peopleKilled;
+    public int InnocentPoints => innocentPoints;
     public string EntryText => entryText;
     public string InfectedText => infectedText;
     public string AcceptedText => acceptedText;
+    public string ToolPickUpText => toolPickUpText;
+    public string StampPickUpText => stampPickUpText;
+    public string IdleText => idleText;
+    public float IdleDuration => idleDuration;
     public AudioClip Voice => voice;    
     
     // Eyeball

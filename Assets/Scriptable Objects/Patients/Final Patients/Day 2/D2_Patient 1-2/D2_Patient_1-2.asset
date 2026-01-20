@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f7dddebbdcde64d985725b32c102f9, type: 3}
+  m_Name: D2_Patient_1-2
+  m_EditorClassIdentifier: 
+  isInfected: 1
+  patientIdPhoto: {fileID: 2100000, guid: bf2190d14c0eb77499ed0ae095607adf, type: 2}
+  skinColorType: 2
+  innocentPoints: 1
+  entryText: "I don\u2019t care what you do to me. Let my daughter live. Don\u2019t
+    cut her life short."
+  infectedText: 'Let my daughter live! She has so much ahead of her!                                                      '
+  acceptedText: What about my daughter? Make sure she gets through too!
+  toolPickUpText: "Is it going to hurt? It looks scary\u2026"
+  stampPickUpText: 
+  idleText: 
+  idleDuration: 0
+  voice: {fileID: 8300000, guid: e790bbc49774d2f458cbaf73b1eaba62, type: 3}
+  bloodshotType: 1
+  eyeColorType: 4
+  willSaccade: 1
+  willAgitate: 1
+  willTrackTool: 1
+  lookAtCameraWhileIdling: 0
+  willDilate: 0
+  willBlink: 1
+  blinkCd: {x: 3, y: 14}
+  blinkCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchCd: {x: 10, y: 20}
+  twitchCdSampler:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  twitchDegree: 1
